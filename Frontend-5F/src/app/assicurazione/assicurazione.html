@@ -3,41 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeClaim - Dashboard Struttura</title>
+    <title>SafeClaim - Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="text-gray-800 font-sans">
 
-    <header class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
-        <div class="flex items-center gap-8">
-            <div class="text-2xl font-bold text-blue-600 tracking-tight">SafeClaim</div>
-            <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
-                <span class="text-blue-600 cursor-pointer">Dashboard</span>
-                <span class="hover:text-blue-500 cursor-pointer transition">I Miei Sinistri</span>
-                <span class="hover:text-blue-500 cursor-pointer transition">I Miei Veicoli</span>
-                <span class="hover:text-blue-500 cursor-pointer transition">Messaggi</span>
-            </nav>
+    <header class="bg-blue-600 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-md">
+        <div class="flex items-center">
+            <div class="text-2xl font-bold text-white tracking-tight">SafeClaim</div>
         </div>
+        
         <div class="flex items-center gap-4">
-            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition shadow-sm">
-                + Nuovo Sinistro
-            </button>
-            <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-xs border border-gray-300 cursor-pointer hover:bg-gray-300 transition">
-                Profilo
+            <div class="h-9 w-9 rounded-full bg-blue-500 border border-blue-400 flex items-center justify-center text-xs text-white font-medium cursor-pointer hover:bg-blue-400 transition shadow-sm">
+                PR
             </div>
+            
+            <button class="p-2 text-white hover:bg-blue-700 rounded-lg transition" title="Logout">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+            </button>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto p-6 space-y-8">
         
-        <section class="flex justify-between items-end">
+        <section>
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">Dashboard Assicuratore</h1>
                 <p class="text-gray-500">Bentornato. Ecco la panoramica della tua attività.</p>
-            </div>
-            <div class="flex gap-2">
-                <button class="px-4 py-2 bg-white border border-gray-300 rounded-md text-sm hover:bg-gray-50 shadow-sm">Filtri</button>
-                <button class="px-4 py-2 bg-white border border-gray-300 rounded-md text-sm hover:bg-gray-50 shadow-sm">Esporta Report</button>
             </div>
         </section>
 
@@ -64,73 +58,35 @@
             </div>
         </section>
 
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 bg-white p-6 rounded-xl border border-gray-200 shadow-sm h-80 flex flex-col justify-center items-center border-dashed text-gray-400">
-                <div class="mb-2">📈</div>
-                <p>Trend Sinistri (Grafico Linea)</p>
+        <section class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 class="font-bold text-gray-700">Sinistri Recenti</h3>
+                <button class="text-blue-600 text-sm font-medium hover:underline">Vedi Tutti</button>
             </div>
-            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm h-80 flex flex-col justify-center items-center border-dashed text-gray-400">
-                <div class="mb-2">📊</div>
-                <p>Distribuzione Stati (Grafico Barre)</p>
+            <div class="divide-y divide-gray-100">
+                <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition">
+                    <div>
+                        <p class="font-semibold text-gray-800">Sinistro #88291</p>
+                        <p class="text-xs text-gray-500">Mario Rossi • 12/02/2026</p>
+                    </div>
+                    <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full font-medium">In Revisione</span>
+                </div>
+                <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition">
+                    <div>
+                        <p class="font-semibold text-gray-800">Sinistro #88290</p>
+                        <p class="text-xs text-gray-500">Luigi Verdi • 11/02/2026</p>
+                    </div>
+                    <span class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">Approvato</span>
+                </div>
+                <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition">
+                    <div>
+                        <p class="font-semibold text-gray-800">Sinistro #88289</p>
+                        <p class="text-xs text-gray-500">Anna Bianchi • 10/02/2026</p>
+                    </div>
+                    <span class="px-3 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">Chiuso</span>
+                </div>
             </div>
         </section>
-
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            
-            <section class="lg:col-span-3 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
-                    <h3 class="font-bold text-gray-700">Sinistri Recenti</h3>
-                    <button class="text-blue-600 text-sm font-medium hover:underline">Vedi Tutti</button>
-                </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition">
-                        <div>
-                            <p class="font-semibold text-gray-800">Sinistro #88291</p>
-                            <p class="text-xs text-gray-500">Mario Rossi • 12/02/2026</p>
-                        </div>
-                        <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full font-medium">In Revisione</span>
-                    </div>
-                    <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition">
-                        <div>
-                            <p class="font-semibold text-gray-800">Sinistro #88290</p>
-                            <p class="text-xs text-gray-500">Luigi Verdi • 11/02/2026</p>
-                        </div>
-                        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">Approvato</span>
-                    </div>
-                    <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition">
-                        <div>
-                            <p class="font-semibold text-gray-800">Sinistro #88289</p>
-                            <p class="text-xs text-gray-500">Anna Bianchi • 10/02/2026</p>
-                        </div>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">Chiuso</span>
-                    </div>
-                </div>
-            </section>
-
-            <aside class="space-y-6">
-                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                    <h4 class="font-bold text-sm text-gray-400 uppercase mb-4 tracking-wider">Rete Partner</h4>
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <span class="w-2 h-2 bg-green-500 rounded-full"></span> 12 Officine Online
-                        </div>
-                        <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span> 4 Periti disponibili
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-blue-600 p-5 rounded-xl shadow-lg text-white">
-                    <h4 class="font-bold text-sm mb-3">Azioni Rapide</h4>
-                    <ul class="text-sm space-y-2 opacity-90">
-                        <li class="cursor-pointer hover:underline">📩 Invia Sollecito</li>
-                        <li class="cursor-pointer hover:underline">📄 Genera PDF Mensile</li>
-                        <li class="cursor-pointer hover:underline">🔍 Cerca per Targa</li>
-                    </ul>
-                </div>
-            </aside>
-
-        </div>
     </main>
 
 </body>
