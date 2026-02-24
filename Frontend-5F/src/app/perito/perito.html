@@ -27,20 +27,7 @@
           </svg>
           ARCHIVIO
         </button>
-        <button (click)="setView('calendario')"
-          [class]="currentView === 'calendario' ? 'nav-active' : 'nav-link'">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          CALENDARIO
-        </button>
-        <button (click)="openContactModal()"
-          class="nav-link text-teal-600 hover:bg-teal-50 hover:text-teal-700">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-          CONTATTA ASSICURAZIONE
-        </button>
+        
       </div>
     </div>
 
@@ -64,43 +51,50 @@
     <!-- ===== DASHBOARD VIEW ===== -->
     @if (currentView === 'dashboard') {
 
-      <!-- Stats Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5 animate-fade-down delay-1">
-        <div class="stat-card">
-          <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+        
+        <div class="stat-card border-l-4 border-red-500 shadow-sm hover:shadow-md transition-shadow">
+          <div class="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <div>
-            <p class="text-3xl font-black">{{ claims.length }}</p>
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Perizie Pendenti</p>
+            <div class="flex items-baseline gap-2">
+              <p class="text-3xl font-black text-slate-800">{{ claims.length }}</p>
+              <span class="text-xs font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded-full">3 in scadenza</span>
+            </div>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Incarichi Attivi</p>
           </div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card border-l-4 border-emerald-500 shadow-sm hover:shadow-md transition-shadow">
           <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
           </div>
           <div>
-            <p class="text-3xl font-black">€ 1.420</p>
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Compensi Maturati</p>
+            <p class="text-3xl font-black text-slate-800">€ 4.250</p>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Onorari Stimati Totali</p>
           </div>
         </div>
 
-        <div class="stat-card">
-          <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center">
+        <div class="stat-card border-l-4 border-indigo-500 shadow-sm hover:shadow-md transition-shadow">
+          <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
           <div>
-            <p class="text-3xl font-black">98%</p>
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">SLA Rispetto</p>
+            <div class="flex items-baseline gap-2">
+              <p class="text-3xl font-black text-slate-800">4.2</p>
+              <span class="text-xs font-medium text-slate-500">gg medi</span>
+            </div>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tempo Chiusura Pratiche</p>
           </div>
         </div>
+
       </div>
 
       <div class="grid lg:grid-cols-3 gap-8">
@@ -210,33 +204,6 @@
               class="w-full mt-4 py-2.5 border-2 border-slate-100 text-xs font-black text-slate-400 rounded-lg hover:border-blue-200 hover:text-blue-600 transition-all uppercase tracking-wider">
               Vedi Calendario →
             </button>
-          </div>
-
-          <!-- Quick Stats -->
-          <div class="widget-card">
-            <h3 class="font-black text-base mb-5 flex items-center gap-2">
-              <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-              Statistiche Mese
-            </h3>
-            <div class="space-y-3">
-              <div class="flex justify-between items-center">
-                <span class="text-xs font-bold text-slate-500">Perizie chiuse</span>
-                <span class="text-sm font-black text-slate-800">12</span>
-              </div>
-              <div class="w-full h-1.5 bg-slate-100 rounded-full"><div class="h-full bg-blue-600 rounded-full" style="width: 80%"></div></div>
-              <div class="flex justify-between items-center">
-                <span class="text-xs font-bold text-slate-500">In valutazione</span>
-                <span class="text-sm font-black text-slate-800">5</span>
-              </div>
-              <div class="w-full h-1.5 bg-slate-100 rounded-full"><div class="h-full bg-orange-500 rounded-full" style="width: 33%"></div></div>
-              <div class="flex justify-between items-center">
-                <span class="text-xs font-bold text-slate-500">Approvate</span>
-                <span class="text-sm font-black text-slate-800">9</span>
-              </div>
-              <div class="w-full h-1.5 bg-slate-100 rounded-full"><div class="h-full bg-emerald-500 rounded-full" style="width: 60%"></div></div>
-            </div>
           </div>
 
           <!-- Support -->
