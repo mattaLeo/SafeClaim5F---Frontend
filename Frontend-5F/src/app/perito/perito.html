@@ -4,9 +4,7 @@
     <!-- ===== DASHBOARD VIEW ===== -->
     @if (currentView === 'dashboard') {
 
-      <!-- Stat Cards: stat-card -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5 animate-fade-down delay-1">
-
         <div class="bg-white p-5 px-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 border-l-4 border-l-red-500 hover:shadow-md transition-shadow">
           <div class="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -48,127 +46,30 @@
             <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tempo Chiusura Pratiche</p>
           </div>
         </div>
-
       </div>
 
-      <div class="grid lg:grid-cols-3 gap-8">
-
-        <!-- Claims List -->
-        <div class="lg:col-span-2 space-y-5 animate-fade-down delay-2">
-          <div class="flex items-center justify-between px-1">
-            <h2 class="text-xl font-black tracking-tight">Perizie in Programma</h2>
-            <div class="flex items-center gap-2 px-3 py-1 bg-teal-50 text-teal-600 rounded-md text-[10px] font-black border border-teal-100 uppercase">
-              <div class="w-1.5 h-1.5 bg-teal-500 rounded-full animate-pulse"></div>
-              Disponibile
-            </div>
+      <!-- ✅ Claims List — griglia singola con app-claim-card -->
+      <div class="space-y-5 animate-fade-down delay-2">
+        <div class="flex items-center justify-between px-1">
+          <h2 class="text-xl font-black tracking-tight">Perizie in Programma</h2>
+          <div class="flex items-center gap-2 px-3 py-1 bg-teal-50 text-teal-600 rounded-md text-[10px] font-black border border-teal-100 uppercase">
+            <div class="w-1.5 h-1.5 bg-teal-500 rounded-full animate-pulse"></div>
+            Disponibile
           </div>
+        </div>
 
+        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
           @for (item of claims; track item.id) {
-            <!-- claim-card -->
-            <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm transition-all hover:shadow-md hover:shadow-blue-900/5 hover:border-slate-200 group">
-              <div class="flex flex-col md:flex-row gap-6">
-                <div class="w-16 h-16 bg-slate-50 rounded-xl flex items-center justify-center text-[#1E40AF] group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 flex-shrink-0">
-                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17h5" />
-                  </svg>
-                </div>
-
-                <div class="flex-1 space-y-3">
-                  <div class="flex flex-wrap items-center gap-2">
-                    <span class="text-base font-black tracking-tighter">{{ item.code }}</span>
-                    <!--
-                      getStatusClass() should return one of these Tailwind color combos:
-                        'bg-orange-50 text-orange-700 border-orange-200'   (in_valutazione)
-                        'bg-blue-50 text-blue-700 border-blue-200'         (assegnato)
-                        'bg-green-50 text-green-700 border-green-200'      (approvato/chiuso)
-                        'bg-slate-50 text-slate-500 border-slate-200'      (default)
-                        'bg-yellow-50 text-yellow-700 border-yellow-100'   (in_attesa)
-                      Prepend base badge classes in the template:
-                    -->
-                    <span [class]="'inline-flex items-center px-2.5 py-0.5 rounded text-[0.6rem] font-black uppercase tracking-[0.06em] border ' + getStatusClass(item.status)">
-                      {{ getStatusLabel(item.status) }}
-                    </span>
-                    <!--
-                      getPriorityClass() should return one of:
-                        'bg-red-50 text-rose-600'    (alta)
-                        'bg-orange-50 text-orange-600' (media)
-                        'bg-green-50 text-green-600' (bassa)
-                    -->
-                    <span [class]="'inline-flex items-center px-2 py-0.5 rounded text-[0.6rem] font-black uppercase tracking-[0.04em] ' + getPriorityClass(item.priority)">
-                      {{ item.priority }}
-                    </span>
-                  </div>
-                  <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">{{ item.type }}</p>
-
-                  <div class="grid grid-cols-2 gap-y-2 gap-x-4 text-sm">
-                    <div class="flex items-center gap-2 text-slate-400">
-                      <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      </svg>
-                      <span class="font-semibold text-slate-600 text-xs truncate">{{ item.location }}</span>
-                    </div>
-                    <div class="flex items-center gap-2 text-slate-400">
-                      <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span class="font-semibold text-slate-600 text-xs">{{ item.time }} · {{ item.date }}</span>
-                    </div>
-                  </div>
-
-                  <!-- chips -->
-                  <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100">
-                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-slate-50 border border-slate-200 rounded-md text-[0.7rem] font-semibold text-slate-500">
-                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
-                      {{ item.vehicle }}
-                    </span>
-                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-blue-50 border border-blue-100 rounded-md text-[0.7rem] font-semibold text-blue-600">
-                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5" />
-                      </svg>
-                      {{ item.insuranceCompany }}
-                    </span>
-                    @if (item.amount) {
-                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-50 border border-emerald-100 rounded-md text-[0.7rem] font-semibold text-emerald-600">
-                        € {{ item.amount | number }}
-                      </span>
-                    }
-                  </div>
-                </div>
-
-                <div class="flex flex-col gap-2 items-end justify-center">
-                  <button class="w-12 h-12 bg-[#1E40AF] text-white rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/20 hover:scale-105 hover:bg-blue-700 transition-all">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
-
-                </div>
-              </div>
-            </div>
+            <app-claim-card
+              [claim]="item"
+              (cardClick)="openClaimDetail($event)">
+            </app-claim-card>
           }
         </div>
-
-        <!-- Sidebar Widgets -->
-        <div class="space-y-6 animate-fade-down delay-3">
-          <!-- Support -->
-          <div class="bg-[#0F172A] text-white rounded-xl p-6">
-            <div class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center mb-4">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-            </div>
-            <h4 class="font-black text-sm">Supporto Prioritario</h4>
-            <p class="text-xs text-white/50 mt-1 leading-relaxed">Assistenza tecnica disponibile 24/7.</p>
-            <button class="w-full mt-4 bg-white text-[#0F172A] font-black py-3 rounded-lg hover:bg-slate-100 transition-all uppercase tracking-widest text-[10px]">
-              Apri Ticket Rapido
-            </button>
-          </div>
-        </div>
       </div>
+
     }
+    <!-- ✅ Fine @if dashboard -->
 
     <!-- ===== ARCHIVIO VIEW ===== -->
     @if (currentView === 'archivio') {
@@ -188,21 +89,17 @@
           </button>
         </div>
 
-        <!-- Filters -->
         <div class="bg-white border border-slate-200 rounded-xl p-5 mb-6 grid grid-cols-2 md:grid-cols-5 gap-3">
           <div class="col-span-2 md:col-span-2">
-            <!-- filter-label -->
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Cerca</label>
             <div class="relative">
               <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              <!-- filter-input -->
               <input [(ngModel)]="filterSearch" type="text" placeholder="Codice, veicolo, luogo..."
                 class="w-full pl-9 pr-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
             </div>
           </div>
-
           <div>
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Stato</label>
             <select [(ngModel)]="filterStatus"
@@ -215,7 +112,6 @@
               <option value="in_attesa">In Attesa</option>
             </select>
           </div>
-
           <div>
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Priorità</label>
             <select [(ngModel)]="filterPriority"
@@ -226,7 +122,6 @@
               <option value="bassa">Bassa</option>
             </select>
           </div>
-
           <div>
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Mese</label>
             <select [(ngModel)]="filterMonth"
@@ -243,15 +138,14 @@
           </div>
         </div>
 
-        <!-- Archive Table -->
         <div class="bg-white border border-slate-200 rounded-xl overflow-hidden">
           <div class="overflow-x-auto">
             <table class="w-full">
               <thead>
                 <tr class="bg-slate-50 border-b border-slate-100">
-                  <!-- table-th -->
-                  <th class="px-4 py-3 text-left text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 whitespace-nowrap">Codice</th>
                   <th class="px-4 py-3 text-left text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 whitespace-nowrap">Tipo</th>
+                  <th class="px-4 py-3 text-left text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 whitespace-nowrap">Codice</th>
+                  <th class="px-4 py-3 text-left text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 whitespace-nowrap">Evento</th>
                   <th class="px-4 py-3 text-left text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 whitespace-nowrap">Veicolo</th>
                   <th class="px-4 py-3 text-left text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 whitespace-nowrap">Luogo</th>
                   <th class="px-4 py-3 text-left text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 whitespace-nowrap">Assicurazione</th>
@@ -264,9 +158,39 @@
               </thead>
               <tbody>
                 @for (c of filteredClaims; track c.id) {
-                  <tr class="border-b border-slate-50 hover:bg-slate-50/60 transition-colors group">
-                    <!-- table-td -->
-                    <td class="px-4 py-3.5 text-[0.8rem] text-slate-900 whitespace-nowrap font-black text-[#1E40AF]">{{ c.code }}</td>
+                  <tr class="border-b border-slate-50 hover:bg-slate-50/60 transition-colors group cursor-pointer" (click)="openClaimDetail(c)">
+                    <td class="px-4 py-3.5">
+                      <div class="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                        @if (getVehicleType(c.vehicle) === 'motorcycle') {
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="5" cy="17" r="2" stroke-width="1.8"/><circle cx="19" cy="17" r="2" stroke-width="1.8"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 17l1.5-5h7l3-4h2l1.5 4-3 1"/>
+                          </svg>
+                        } @else if (getVehicleType(c.vehicle) === 'truck') {
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="1" y="3" width="13" height="13" rx="1" stroke-width="1.8"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M14 7h4l3 3v6h-7V7z"/>
+                            <circle cx="6" cy="19" r="2" stroke-width="1.8"/><circle cx="18" cy="19" r="2" stroke-width="1.8"/>
+                          </svg>
+                        } @else if (getVehicleType(c.vehicle) === 'van') {
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 13l1-7h14l2 7M3 13v4h1m15-4v4h1m-17 0h16"/>
+                            <circle cx="6" cy="17" r="1.5" stroke-width="1.8"/><circle cx="18" cy="17" r="1.5" stroke-width="1.8"/>
+                          </svg>
+                        } @else if (getVehicleType(c.vehicle) === 'suv') {
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 17V9l3-4h12l3 4v8H3zm4-8h10"/>
+                            <circle cx="7" cy="17" r="2" stroke-width="1.8"/><circle cx="17" cy="17" r="2" stroke-width="1.8"/>
+                          </svg>
+                        } @else {
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17h5"/>
+                          </svg>
+                        }
+                      </div>
+                    </td>
+                    <td class="px-4 py-3.5 text-[0.8rem] font-black text-[#1E40AF] whitespace-nowrap">{{ c.code }}</td>
                     <td class="px-4 py-3.5 text-[0.8rem] text-slate-600 whitespace-nowrap font-semibold">{{ c.type }}</td>
                     <td class="px-4 py-3.5 text-[0.8rem] text-slate-900 whitespace-nowrap">
                       <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-slate-50 border border-slate-200 rounded-md text-[0.7rem] font-semibold text-slate-500">{{ c.vehicle }}</span>
@@ -277,8 +201,7 @@
                     </td>
                     <td class="px-4 py-3.5 text-[0.8rem] text-slate-500 whitespace-nowrap">{{ c.date }}</td>
                     <td class="px-4 py-3.5 text-[0.8rem] whitespace-nowrap font-black text-emerald-600">
-                      @if (c.amount) { € {{ c.amount | number }} }
-                      @else { — }
+                      @if (c.amount) { € {{ c.amount | number }} } @else { — }
                     </td>
                     <td class="px-4 py-3.5 text-[0.8rem] text-slate-900 whitespace-nowrap">
                       <span [class]="'inline-flex items-center px-2.5 py-0.5 rounded text-[0.6rem] font-black uppercase tracking-[0.06em] border ' + getStatusClass(c.status)">{{ getStatusLabel(c.status) }}</span>
@@ -286,8 +209,8 @@
                     <td class="px-4 py-3.5 text-[0.8rem] text-slate-900 whitespace-nowrap">
                       <span [class]="'inline-flex items-center px-2 py-0.5 rounded text-[0.6rem] font-black uppercase tracking-[0.04em] ' + getPriorityClass(c.priority)">{{ c.priority }}</span>
                     </td>
-                    <td class="px-4 py-3.5 text-[0.8rem] text-slate-900 whitespace-nowrap text-center">
-                      <button (click)="openContactModal(c.code)"
+                    <td class="px-4 py-3.5 text-center whitespace-nowrap">
+                      <button (click)="$event.stopPropagation(); openContactModal(c.code)"
                         class="opacity-0 group-hover:opacity-100 inline-flex items-center gap-1 px-3 py-1.5 bg-teal-50 text-teal-600 text-[10px] font-black rounded-lg hover:bg-teal-600 hover:text-white transition-all uppercase">
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -299,7 +222,7 @@
                 }
                 @if (filteredClaims.length === 0) {
                   <tr>
-                    <td colspan="10" class="py-16 text-center">
+                    <td colspan="11" class="py-16 text-center">
                       <svg class="w-12 h-12 text-slate-200 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
@@ -312,17 +235,122 @@
             </table>
           </div>
         </div>
+
       </div>
     }
+    <!-- ✅ Fine @if archivio -->
 
   </main>
+
+  <!-- ===== CLAIM DETAIL PANEL ===== -->
+  @if (isClaimDetailOpen && selectedClaim) {
+    <div class="fixed inset-0 z-50 flex justify-end">
+      <div (click)="closeClaimDetail()" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+      <div class="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col sidebar-slide-in overflow-hidden">
+        <div class="settings-header p-6 border-b border-slate-100 flex items-start justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-blue-50 text-[#1E40AF] rounded-xl flex items-center justify-center flex-shrink-0">
+              @if (getVehicleType(selectedClaim.vehicle) === 'motorcycle') {
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <circle cx="5" cy="17" r="2" stroke-width="1.8"/><circle cx="19" cy="17" r="2" stroke-width="1.8"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 17l1.5-5h7l3-4h2l1.5 4-3 1"/>
+                </svg>
+              } @else if (getVehicleType(selectedClaim.vehicle) === 'truck') {
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <rect x="1" y="3" width="13" height="13" rx="1" stroke-width="1.8"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M14 7h4l3 3v6h-7V7z"/>
+                  <circle cx="6" cy="19" r="2" stroke-width="1.8"/><circle cx="18" cy="19" r="2" stroke-width="1.8"/>
+                </svg>
+              } @else if (getVehicleType(selectedClaim.vehicle) === 'van') {
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 13l1-7h14l2 7M3 13v4h1m15-4v4h1m-17 0h16"/>
+                  <circle cx="6" cy="17" r="1.5" stroke-width="1.8"/><circle cx="18" cy="17" r="1.5" stroke-width="1.8"/>
+                </svg>
+              } @else if (getVehicleType(selectedClaim.vehicle) === 'suv') {
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 17V9l3-4h12l3 4v8H3zm4-8h10"/>
+                  <circle cx="7" cy="17" r="2" stroke-width="1.8"/><circle cx="17" cy="17" r="2" stroke-width="1.8"/>
+                </svg>
+              } @else {
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17h5"/>
+                </svg>
+              }
+            </div>
+            <div>
+              <h2 class="text-lg font-black text-slate-900">{{ selectedClaim.code }}</h2>
+              <p class="text-[0.7rem] font-bold text-slate-400 uppercase tracking-wider">{{ selectedClaim.type }}</p>
+            </div>
+          </div>
+          <button (click)="closeClaimDetail()" class="p-2 hover:bg-slate-50 rounded-lg text-slate-400 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+          <div class="flex items-center gap-3">
+            <span [class]="'inline-flex items-center px-3 py-1 rounded-lg text-xs font-black uppercase tracking-[0.06em] border ' + getStatusClass(selectedClaim.status)">
+              {{ getStatusLabel(selectedClaim.status) }}
+            </span>
+            <span [class]="'inline-flex items-center px-3 py-1 rounded-lg text-xs font-black uppercase ' + getPriorityClass(selectedClaim.priority)">
+              Priorità {{ selectedClaim.priority }}
+            </span>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-4 space-y-3.5">
+            <div class="flex justify-between items-start text-sm">
+              <span class="text-xs font-black text-slate-400 uppercase tracking-wider">Veicolo</span>
+              <span class="font-bold text-slate-700 text-right ml-4">{{ selectedClaim.vehicle }}</span>
+            </div>
+            <div class="h-px bg-slate-100"></div>
+            <div class="flex justify-between items-start text-sm">
+              <span class="text-xs font-black text-slate-400 uppercase tracking-wider">Luogo</span>
+              <span class="font-bold text-slate-700 text-right ml-4 max-w-[220px]">{{ selectedClaim.location }}</span>
+            </div>
+            <div class="h-px bg-slate-100"></div>
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-xs font-black text-slate-400 uppercase tracking-wider">Data & Ora</span>
+              <span class="font-bold text-slate-700">{{ selectedClaim.date }} · {{ selectedClaim.time }}</span>
+            </div>
+            <div class="h-px bg-slate-100"></div>
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-xs font-black text-slate-400 uppercase tracking-wider">Assicurazione</span>
+              <span class="inline-flex items-center px-2.5 py-0.5 bg-blue-50 border border-blue-100 rounded-md text-xs font-semibold text-blue-600">{{ selectedClaim.insuranceCompany }}</span>
+            </div>
+            @if (selectedClaim.amount) {
+              <div class="h-px bg-slate-100"></div>
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-xs font-black text-slate-400 uppercase tracking-wider">Stima Danno</span>
+                <span class="text-lg font-black text-emerald-600">€ {{ selectedClaim.amount | number }}</span>
+              </div>
+            }
+          </div>
+          <div>
+            <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-2">Note Perizia</label>
+            <textarea rows="4" placeholder="Aggiungi note o osservazioni sul sinistro..."
+              class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all resize-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]"></textarea>
+          </div>
+        </div>
+
+        <div class="p-5 border-t border-slate-100 bg-white flex gap-3">
+          <button (click)="openContactModal(selectedClaim.code)"
+            class="flex-1 py-3 text-xs font-black text-teal-600 border border-teal-200 bg-teal-50 rounded-xl hover:bg-teal-600 hover:text-white transition-all uppercase tracking-wider">
+            Contatta Assicurazione
+          </button>
+          <button class="flex-1 py-3 text-xs font-black text-white bg-[#1E40AF] rounded-xl hover:bg-blue-700 transition-all uppercase tracking-wider shadow-lg shadow-blue-900/20">
+            Avvia Perizia
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 
   <!-- ===== PROFILE SIDEBAR ===== -->
   @if (isSidebarOpen) {
     <div class="fixed inset-0 z-50 flex justify-end">
       <div (click)="toggleSidebar()" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
-
-      <!-- sidebar-slide-in: kept as custom class (keyframe animation) -->
       <div class="relative w-full max-w-sm bg-white h-full shadow-2xl flex flex-col sidebar-slide-in">
         <div class="p-6 border-b border-slate-100 flex items-center justify-between">
           <h2 class="text-lg font-black">Profilo Utente</h2>
@@ -332,7 +360,6 @@
             </svg>
           </button>
         </div>
-
         <div class="flex-1 overflow-y-auto p-6 space-y-8">
           <div class="text-center space-y-3">
             <div class="w-20 h-20 bg-[#1E40AF] rounded-2xl mx-auto flex items-center justify-center text-3xl text-white font-black shadow-xl shadow-blue-200">
@@ -343,43 +370,25 @@
               <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">{{ user.id }}</p>
             </div>
           </div>
-
-          <!-- Role Switch -->
-          <div class="space-y-3">
-            <p class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Cambia Ruolo</p>
-            <!-- role-btn / role-btn-active -->
-            <button (click)="switchRole('Perito')"
-              [class]="currentRole === 'Perito'
-                ? 'w-full flex items-center justify-between p-3.5 px-4 border-[1.5px] border-blue-800 rounded-xl font-bold text-[0.85rem] text-blue-800 bg-blue-50 transition-all cursor-pointer'
-                : 'w-full flex items-center justify-between p-3.5 px-4 border-[1.5px] border-slate-100 rounded-xl font-bold text-[0.85rem] text-slate-500 bg-white hover:bg-slate-50 hover:border-slate-200 transition-all cursor-pointer'">
-              <div class="flex items-center gap-3">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-                Perito
-              </div>
-              @if (currentRole === 'Perito') {
-                <div class="w-2 h-2 bg-blue-600 rounded-full"></div>
-              }
-            </button>
-
-            <button (click)="switchRole('Automobilista')"
-              [class]="currentRole === 'Automobilista'
-                ? 'w-full flex items-center justify-between p-3.5 px-4 border-[1.5px] border-blue-800 rounded-xl font-bold text-[0.85rem] text-blue-800 bg-blue-50 transition-all cursor-pointer'
-                : 'w-full flex items-center justify-between p-3.5 px-4 border-[1.5px] border-slate-100 rounded-xl font-bold text-[0.85rem] text-slate-500 bg-white hover:bg-slate-50 hover:border-slate-200 transition-all cursor-pointer'">
-              <div class="flex items-center gap-3">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-                Automobilista
-              </div>
-              @if (currentRole === 'Automobilista') {
-                <div class="w-2 h-2 bg-blue-600 rounded-full"></div>
-              }
-            </button>
+          <div class="space-y-2">
+            <p class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-3">Cambia Ruolo</p>
+            @for (role of roles; track role) {
+              <button (click)="switchRole(role)"
+                [class]="currentRole === role
+                  ? 'w-full flex items-center justify-between p-3 px-4 border-[1.5px] border-blue-800 rounded-xl font-bold text-[0.82rem] text-blue-800 bg-blue-50 transition-all cursor-pointer'
+                  : 'w-full flex items-center justify-between p-3 px-4 border-[1.5px] border-slate-100 rounded-xl font-bold text-[0.82rem] text-slate-500 bg-white hover:bg-slate-50 hover:border-slate-200 transition-all cursor-pointer'">
+                <div class="flex items-center gap-3">
+                  <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="getRoleIcon(role)" />
+                  </svg>
+                  {{ role }}
+                </div>
+                @if (currentRole === role) {
+                  <div class="w-2 h-2 bg-blue-600 rounded-full"></div>
+                }
+              </button>
+            }
           </div>
-
-          <!-- Navigation Links -->
           <div class="space-y-1 border-t border-slate-100 pt-6">
             <button (click)="openSettings()"
               class="w-full flex items-center gap-3 p-3 text-slate-600 font-bold hover:bg-slate-50 rounded-lg transition-all text-sm text-left">
@@ -405,12 +414,8 @@
   @if (isSettingsOpen) {
     <div class="fixed inset-0 z-[60] flex justify-end">
       <div (click)="closeSettings()" class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"></div>
-
-      <!-- settings-panel-in/out: kept as custom class (keyframe) -->
       <div class="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col overflow-hidden"
         [class]="isSettingsAnimating ? 'settings-panel-in' : 'settings-panel-out'">
-
-        <!-- settings-header: kept as custom class due to ::after pseudo-element gradient border -->
         <div class="settings-header p-6 border-b border-slate-100 flex items-center justify-between">
           <div>
             <div class="flex items-center gap-2 mb-1">
@@ -429,12 +434,8 @@
             </svg>
           </button>
         </div>
-
         <div class="flex-1 overflow-y-auto p-6 space-y-8">
-
-          <!-- settings-section: kept as custom class (keyframe) -->
           <section class="settings-section delay-s1">
-            <!-- settings-section-title -->
             <p class="flex items-center gap-2 text-[0.65rem] font-black uppercase tracking-[0.1em] text-slate-400 mb-4">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -443,25 +444,19 @@
             </p>
             <div class="space-y-4">
               <div>
-                <!-- setting-label -->
                 <label class="block text-[0.7rem] font-extrabold text-slate-500 mb-1.5 uppercase tracking-[0.05em]">Nome Completo</label>
-                <!-- setting-input -->
-                <input [(ngModel)]="settings.full_name" type="text"
-                  class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
+                <input [(ngModel)]="settings.full_name" type="text" class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
               </div>
               <div>
                 <label class="block text-[0.7rem] font-extrabold text-slate-500 mb-1.5 uppercase tracking-[0.05em]">Email</label>
-                <input [(ngModel)]="settings.email" type="email"
-                  class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
+                <input [(ngModel)]="settings.email" type="email" class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
               </div>
               <div>
                 <label class="block text-[0.7rem] font-extrabold text-slate-500 mb-1.5 uppercase tracking-[0.05em]">Telefono</label>
-                <input [(ngModel)]="settings.phone" type="tel"
-                  class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
+                <input [(ngModel)]="settings.phone" type="tel" class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
               </div>
             </div>
           </section>
-
           <section class="settings-section delay-s2">
             <p class="flex items-center gap-2 text-[0.65rem] font-black uppercase tracking-[0.1em] text-slate-400 mb-4">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -470,7 +465,6 @@
               Notifiche
             </p>
             <div class="space-y-3">
-              <!-- toggle-row -->
               <label class="flex items-center justify-between p-3.5 bg-slate-50 rounded-xl cursor-pointer transition-colors border border-transparent hover:bg-slate-100 hover:border-slate-200">
                 <div>
                   <p class="text-sm font-bold text-slate-700">Notifiche Email</p>
@@ -478,13 +472,10 @@
                 </div>
                 <div class="relative">
                   <input type="checkbox" [(ngModel)]="settings.notifications_email" class="sr-only peer" />
-                  <!-- toggle-track -->
                   <div class="w-10 h-[1.35rem] bg-slate-300 rounded-full transition-colors peer-checked:bg-blue-600 relative"></div>
-                  <!-- toggle-thumb -->
                   <div class="absolute top-[0.2rem] left-[0.2rem] w-[0.95rem] h-[0.95rem] bg-white rounded-full shadow-sm transition-transform peer-checked:translate-x-5"></div>
                 </div>
               </label>
-
               <label class="flex items-center justify-between p-3.5 bg-slate-50 rounded-xl cursor-pointer transition-colors border border-transparent hover:bg-slate-100 hover:border-slate-200">
                 <div>
                   <p class="text-sm font-bold text-slate-700">Notifiche SMS</p>
@@ -498,7 +489,6 @@
               </label>
             </div>
           </section>
-
           <section class="settings-section delay-s3">
             <p class="flex items-center gap-2 text-[0.65rem] font-black uppercase tracking-[0.1em] text-slate-400 mb-4">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -509,40 +499,25 @@
             <div class="space-y-4">
               <div>
                 <label class="block text-[0.7rem] font-extrabold text-slate-500 mb-1.5 uppercase tracking-[0.05em]">Lingua</label>
-                <select [(ngModel)]="settings.language"
-                  class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]">
-                  <option>Italiano</option>
-                  <option>English</option>
-                  <option>Français</option>
+                <select [(ngModel)]="settings.language" class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]">
+                  <option>Italiano</option><option>English</option><option>Français</option>
                 </select>
               </div>
               <div>
                 <label class="block text-[0.7rem] font-extrabold text-slate-500 mb-1.5 uppercase tracking-[0.05em]">Tema</label>
                 <div class="grid grid-cols-2 gap-2 mt-1">
-                  <!-- theme-btn / theme-btn-active -->
-                  <button (click)="settings.theme = 'Chiaro'"
-                    [class]="settings.theme === 'Chiaro'
-                      ? 'flex items-center justify-center gap-2 p-2.5 border-[1.5px] border-blue-800 rounded-xl text-[0.75rem] font-bold text-blue-800 bg-blue-50 cursor-pointer transition-all'
-                      : 'flex items-center justify-center gap-2 p-2.5 border-[1.5px] border-slate-200 rounded-xl text-[0.75rem] font-bold text-slate-500 bg-slate-50 cursor-pointer transition-all hover:bg-slate-100'">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
+                  <button (click)="settings.theme = 'Chiaro'" [class]="settings.theme === 'Chiaro' ? 'flex items-center justify-center gap-2 p-2.5 border-[1.5px] border-blue-800 rounded-xl text-[0.75rem] font-bold text-blue-800 bg-blue-50 cursor-pointer transition-all' : 'flex items-center justify-center gap-2 p-2.5 border-[1.5px] border-slate-200 rounded-xl text-[0.75rem] font-bold text-slate-500 bg-slate-50 cursor-pointer transition-all hover:bg-slate-100'">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                     Chiaro
                   </button>
-                  <button (click)="settings.theme = 'Scuro'"
-                    [class]="settings.theme === 'Scuro'
-                      ? 'flex items-center justify-center gap-2 p-2.5 border-[1.5px] border-blue-800 rounded-xl text-[0.75rem] font-bold text-blue-800 bg-blue-50 cursor-pointer transition-all'
-                      : 'flex items-center justify-center gap-2 p-2.5 border-[1.5px] border-slate-200 rounded-xl text-[0.75rem] font-bold text-slate-500 bg-slate-50 cursor-pointer transition-all hover:bg-slate-100'">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
+                  <button (click)="settings.theme = 'Scuro'" [class]="settings.theme === 'Scuro' ? 'flex items-center justify-center gap-2 p-2.5 border-[1.5px] border-blue-800 rounded-xl text-[0.75rem] font-bold text-blue-800 bg-blue-50 cursor-pointer transition-all' : 'flex items-center justify-center gap-2 p-2.5 border-[1.5px] border-slate-200 rounded-xl text-[0.75rem] font-bold text-slate-500 bg-slate-50 cursor-pointer transition-all hover:bg-slate-100'">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                     Scuro
                   </button>
                 </div>
               </div>
             </div>
           </section>
-
           <section class="settings-section delay-s4 pb-4">
             <p class="flex items-center gap-2 text-[0.65rem] font-black uppercase tracking-[0.1em] text-slate-400 mb-4">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -566,8 +541,6 @@
             </div>
           </section>
         </div>
-
-        <!-- Save Footer -->
         <div class="p-5 border-t border-slate-100 bg-white">
           @if (settingsSaved) {
             <div class="flex items-center gap-2 px-4 py-3 bg-emerald-50 text-emerald-700 rounded-lg text-sm font-black mb-3 animate-fade-down">
@@ -578,14 +551,8 @@
             </div>
           }
           <div class="flex gap-3">
-            <button (click)="closeSettings()"
-              class="flex-1 py-3 text-xs font-black text-slate-400 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all uppercase tracking-wider">
-              Annulla
-            </button>
-            <button (click)="saveSettings()"
-              class="flex-1 py-3 text-xs font-black text-white bg-[#1E40AF] rounded-lg hover:bg-blue-700 transition-all uppercase tracking-wider shadow-lg shadow-blue-900/20">
-              Salva Modifiche
-            </button>
+            <button (click)="closeSettings()" class="flex-1 py-3 text-xs font-black text-slate-400 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all uppercase tracking-wider">Annulla</button>
+            <button (click)="saveSettings()" class="flex-1 py-3 text-xs font-black text-white bg-[#1E40AF] rounded-lg hover:bg-blue-700 transition-all uppercase tracking-wider shadow-lg shadow-blue-900/20">Salva Modifiche</button>
           </div>
         </div>
       </div>
@@ -596,10 +563,7 @@
   @if (isContactModalOpen) {
     <div class="fixed inset-0 z-[70] flex items-center justify-center p-4">
       <div (click)="closeContactModal()" class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"></div>
-
-      <!-- modal-pop: kept as custom class (keyframe) -->
       <div class="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl modal-pop overflow-hidden">
-
         @if (contactSent) {
           <div class="p-12 text-center animate-fade-down">
             <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -624,13 +588,11 @@
               </svg>
             </button>
           </div>
-
           <div class="p-6 space-y-4">
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Assicurazione</label>
-                <select [(ngModel)]="contactForm.insurance"
-                  class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]">
+                <select [(ngModel)]="contactForm.insurance" class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]">
                   <option value="">Seleziona...</option>
                   @for (ins of insuranceCompanies; track ins) {
                     <option [value]="ins">{{ ins }}</option>
@@ -639,29 +601,21 @@
               </div>
               <div>
                 <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Priorità</label>
-                <select [(ngModel)]="contactForm.priority"
-                  class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]">
+                <select [(ngModel)]="contactForm.priority" class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]">
                   <option value="bassa">Bassa</option>
                   <option value="normale">Normale</option>
                   <option value="urgente">Urgente</option>
                 </select>
               </div>
             </div>
-
             <div>
               <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Oggetto</label>
-              <input [(ngModel)]="contactForm.subject" type="text"
-                placeholder="Es. Aggiornamento stima danni SN-88291-24"
-                class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
+              <input [(ngModel)]="contactForm.subject" type="text" placeholder="Es. Aggiornamento stima danni SN-88291-24" class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
             </div>
-
             <div>
               <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Messaggio</label>
-              <textarea [(ngModel)]="contactForm.message" rows="4"
-                placeholder="Inserisci qui il tuo messaggio..."
-                class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08] resize-none leading-relaxed"></textarea>
+              <textarea [(ngModel)]="contactForm.message" rows="4" placeholder="Inserisci qui il tuo messaggio..." class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08] resize-none leading-relaxed"></textarea>
             </div>
-
             @if (contactForm.priority === 'urgente') {
               <div class="flex items-center gap-2 p-3 bg-red-50 border border-red-100 rounded-lg text-xs font-bold text-red-600">
                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -671,14 +625,9 @@
               </div>
             }
           </div>
-
           <div class="p-5 border-t border-slate-100 flex gap-3">
-            <button (click)="closeContactModal()"
-              class="flex-1 py-3 text-xs font-black text-slate-400 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all uppercase">
-              Annulla
-            </button>
-            <button (click)="sendContactForm()"
-              [disabled]="!contactForm.insurance || !contactForm.message"
+            <button (click)="closeContactModal()" class="flex-1 py-3 text-xs font-black text-slate-400 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all uppercase">Annulla</button>
+            <button (click)="sendContactForm()" [disabled]="!contactForm.insurance || !contactForm.message"
               class="flex-1 py-3 text-xs font-black text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-all uppercase disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-teal-900/15">
               Invia Messaggio
             </button>

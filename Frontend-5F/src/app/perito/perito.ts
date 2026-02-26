@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ClaimCardComponent } from '../componenti/claim-card/claim-card.component';
 
 export type ViewType = 'dashboard' | 'archivio' | 'calendario';
-
+// perito.ts
+export type VehicleType = 'car' | 'truck' | 'motorcycle' | 'van' | 'suv';
 export interface Claim {
   id: string;
   code: string;
@@ -33,7 +35,7 @@ export interface UserSettings {
 @Component({
   selector: 'app-perito',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ClaimCardComponent],
   templateUrl: './perito.html',
   styleUrl: './perito.css',
 })
@@ -42,6 +44,8 @@ export class Perito implements OnInit {
   isSettingsOpen = false;
   isContactModalOpen = false;
   isSettingsAnimating = false;
+  isClaimDetailOpen = false;
+  selectedClaim: Claim | null = null;
   currentRole = 'Perito';
   currentView: ViewType = 'dashboard';
 
@@ -63,7 +67,6 @@ export class Perito implements OnInit {
 
   settingsSaved = false;
 
-  // Contact insurance form
   contactForm = {
     insurance: '',
     subject: '',
@@ -73,9 +76,8 @@ export class Perito implements OnInit {
   };
   contactSent = false;
 
-  // Calendar state
   calendarYear = 2026;
-  calendarMonth = 1; // 0-indexed: 1 = February
+  calendarMonth = 1;
   selectedDay: number | null = null;
 
   monthNames = [
@@ -85,14 +87,12 @@ export class Perito implements OnInit {
 
   dayNames = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
 
-  // Archive filters
   filterStatus = '';
   filterType = '';
   filterMonth = '';
   filterPriority = '';
   filterSearch = '';
 
-  // Pending claims (dashboard)
   claims: Claim[] = [
     {
       id: '1', code: 'SN-88291-24', status: 'in_valutazione',
@@ -121,12 +121,23 @@ export class Perito implements OnInit {
     {
       id: '5', code: 'SN-55210-24', status: 'in_valutazione',
       type: 'Incendio Parziale', location: 'Via Padova 5, Milano',
-      date: '22 Febbraio 2026', time: '08:30', vehicle: 'Volkswagen Golf - UV345WX',
+      date: '22 Febbraio 2026', time: '08:30', vehicle: 'Ducati Monster - UV345WX',
       priority: 'alta', insuranceCompany: 'Generali', amount: 9200, month: 2, year: 2026
+    },
+    {
+      id: '21', code: 'SN-44120-24', status: 'in_attesa',
+      type: 'Collisione Laterale', location: 'Via Novara 11, Milano',
+      date: '23 Febbraio 2026', time: '10:00', vehicle: 'Iveco Daily - RR901ZZ',
+      priority: 'media', insuranceCompany: 'AXA', amount: 6700, month: 2, year: 2026
+    },
+    {
+      id: '22', code: 'SN-33880-24', status: 'assegnato',
+      type: 'Danno da Grandine', location: 'Piazza Duca d\'Aosta, Milano',
+      date: '24 Febbraio 2026', time: '13:30', vehicle: 'Volkswagen Transporter - PP567HH',
+      priority: 'bassa', insuranceCompany: 'UnipolSai', amount: 2300, month: 2, year: 2026
     },
   ];
 
-  // Full archive
   allClaims: Claim[] = [
     ...this.claims,
     {
@@ -162,13 +173,13 @@ export class Perito implements OnInit {
     {
       id: '11', code: 'SN-88334-23', status: 'approvato',
       type: 'Collisione Frontale', location: 'Viale Europa 23, Firenze',
-      date: '08 Dicembre 2025', time: '08:00', vehicle: 'Opel Mokka - ST123UV',
+      date: '08 Dicembre 2025', time: '08:00', vehicle: 'Yamaha MT-07 - ST123UV',
       priority: 'alta', insuranceCompany: 'AXA', amount: 7400, month: 12, year: 2025
     },
     {
       id: '12', code: 'SN-77210-23', status: 'chiuso',
       type: 'Tamponamento', location: 'Corso Garibaldi 55, Firenze',
-      date: '12 Dicembre 2025', time: '13:00', vehicle: 'Nissan Qashqai - WX456YZ',
+      date: '12 Dicembre 2025', time: '13:00', vehicle: 'Scania R450 - WX456YZ',
       priority: 'media', insuranceCompany: 'UnipolSai', amount: 1900, month: 12, year: 2025
     },
     {
@@ -180,7 +191,7 @@ export class Perito implements OnInit {
     {
       id: '14', code: 'SN-55873-23', status: 'approvato',
       type: 'Danno da Alluvione', location: 'Via Toledo 40, Napoli',
-      date: '25 Novembre 2025', time: '10:30', vehicle: 'Hyundai Tucson - EF012GH',
+      date: '25 Novembre 2025', time: '10:30', vehicle: 'Ford Transit - EF012GH',
       priority: 'alta', insuranceCompany: 'Generali', amount: 11500, month: 11, year: 2025
     },
     {
@@ -204,13 +215,13 @@ export class Perito implements OnInit {
     {
       id: '18', code: 'SN-11088-23', status: 'chiuso',
       type: 'Danno da Grandine', location: 'Corso Lodi 33, Milano',
-      date: '22 Settembre 2025', time: '08:00', vehicle: 'Volvo XC60 - UV234WX',
+      date: '22 Settembre 2025', time: '08:00', vehicle: 'Harley-Davidson - UV234WX',
       priority: 'bassa', insuranceCompany: 'Generali', amount: 2600, month: 9, year: 2025
     },
     {
       id: '19', code: 'SN-99877-23', status: 'approvato',
       type: 'Collisione Catena', location: 'Tangenziale Est, Milano',
-      date: '05 Agosto 2025', time: '07:30', vehicle: 'Jeep Renegade - YZ567AB',
+      date: '05 Agosto 2025', time: '07:30', vehicle: 'MAN TGX - YZ567AB',
       priority: 'alta', insuranceCompany: 'AXA', amount: 8900, month: 8, year: 2025
     },
     {
@@ -221,7 +232,6 @@ export class Perito implements OnInit {
     },
   ];
 
-  // Calendar appointments
   appointments: { day: number; time: string; title: string; location: string; claimCode: string }[] = [
     { day: 18, time: '14:30', title: 'Perizia Audi A3', location: 'Via Verdi 15, Milano', claimCode: 'SN-88291-24' },
     { day: 19, time: '09:00', title: 'Perizia Fiat 500', location: 'Corso Buenos Aires, Milano', claimCode: 'SN-77102-24' },
@@ -233,6 +243,8 @@ export class Perito implements OnInit {
   ];
 
   insuranceCompanies = ['Generali', 'AXA', 'UnipolSai', 'Allianz', 'Poste Assicura', 'Zurich'];
+
+  roles = ['Perito', 'Automobilista', 'Assicurazione', 'Officina', 'Supporto Stradale'];
 
   ngOnInit() {
     this.loadSettings();
@@ -259,22 +271,38 @@ export class Perito implements OnInit {
     this.isSidebarOpen = false;
   }
 
+  goHome() {
+    this.currentView = 'dashboard';
+    this.isSidebarOpen = false;
+    this.isSettingsOpen = false;
+    this.isClaimDetailOpen = false;
+    this.isContactModalOpen = false;
+  }
+
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
   openSettings() {
     this.isSidebarOpen = false;
-    this.isSettingsAnimating = false;
-    setTimeout(() => {
-      this.isSettingsOpen = true;
-      setTimeout(() => { this.isSettingsAnimating = true; }, 20);
-    }, 100);
+    this.isSettingsOpen = true;
+    // Piccolo delay solo per triggerare l'animazione CSS dopo il render
+    setTimeout(() => { this.isSettingsAnimating = true; }, 16);
   }
 
   closeSettings() {
     this.isSettingsAnimating = false;
     setTimeout(() => { this.isSettingsOpen = false; }, 350);
+  }
+
+  openClaimDetail(claim: Claim) {
+    this.selectedClaim = claim;
+    this.isClaimDetailOpen = true;
+  }
+
+  closeClaimDetail() {
+    this.isClaimDetailOpen = false;
+    setTimeout(() => { this.selectedClaim = null; }, 350);
   }
 
   openContactModal(claimCode = '') {
@@ -289,7 +317,6 @@ export class Perito implements OnInit {
   }
 
   sendContactForm() {
-    // Simulate sending
     this.contactSent = true;
     setTimeout(() => { this.closeContactModal(); }, 2000);
   }
@@ -298,11 +325,51 @@ export class Perito implements OnInit {
     this.currentRole = role;
   }
 
-  // Calendar methods
+  // ─── Vehicle type detection ───────────────────────────────────────────────
+
+  getVehicleType(vehicle: string): VehicleType {
+    const v = vehicle.toLowerCase();
+
+    const motorcycleBrands = [
+      'ducati', 'yamaha', 'kawasaki', 'suzuki moto', 'harley', 'honda cb',
+      'honda cbr', 'honda sh', 'ktm', 'aprilia', 'triumph', 'bmw r', 'bmw gs',
+      'bmw f', 'moto guzzi', 'royal enfield', 'benelli', 'mv agusta', 'piaggio',
+      'vespa', 'kymco', 'sym moto', 'cfmoto', 'husqvarna', 'beta moto', 'ktm'
+    ];
+    if (motorcycleBrands.some(b => v.includes(b))) return 'motorcycle';
+
+    const truckBrands = [
+      'iveco', 'scania', 'man ', 'daf ', 'volvo fh', 'volvo fm', 'mercedes actros',
+      'mercedes arocs', 'renault truck', 'renault t ', 'kenworth', 'peterbilt',
+      'mercedes atego', 'man tgx', 'man tgs', 'man tgl'
+    ];
+    if (truckBrands.some(b => v.includes(b))) return 'truck';
+
+    const vanKeywords = [
+      'transporter', 'transit', 'sprinter', 'ducato', 'master', 'jumper',
+      'vito', 'crafter', 'boxer', 'daily', 'trafic', 'expert', 'vivan',
+      'berlingo cargo', 'combo cargo', 'kangoo', 'caddy cargo'
+    ];
+    if (vanKeywords.some(b => v.includes(b))) return 'van';
+
+    const suvKeywords = [
+      'suv', 'qashqai', 'tucson', 'sportage', 'tiguan', 'rav4', 'cr-v',
+      'x5', 'x3', 'x1', 'xc60', 'xc40', 'discovery', 'freelander', 'defender',
+      'renegade', 'compass', 'gla', 'glb', 'glc', 'gle', 'mokka', 'grandland',
+      'captur', 'puma ford', 'kuga', 'ecosport', 'arona', 'ateca', 'karoq',
+      'kodiaq', 'yaris cross', 'corolla cross', 'ux lexus', 'rx lexus',
+      'ix35', 'ix55', 'santa fe'
+    ];
+    if (suvKeywords.some(b => v.includes(b))) return 'suv';
+
+    return 'car';
+  }
+
+  // ─── Calendar ─────────────────────────────────────────────────────────────
+
   get calendarDays(): (number | null)[] {
     const firstDay = new Date(this.calendarYear, this.calendarMonth, 1).getDay();
     const daysInMonth = new Date(this.calendarYear, this.calendarMonth + 1, 0).getDate();
-    // Adjust: Monday = 0
     const offset = (firstDay + 6) % 7;
     const days: (number | null)[] = [];
     for (let i = 0; i < offset; i++) days.push(null);
@@ -345,7 +412,8 @@ export class Perito implements OnInit {
     return day === 18 && this.calendarMonth === 1 && this.calendarYear === 2026;
   }
 
-  // Archive filter methods
+  // ─── Archive filters ──────────────────────────────────────────────────────
+
   get filteredClaims(): Claim[] {
     return this.allClaims.filter(c => {
       if (this.filterStatus && c.status !== this.filterStatus) return false;
@@ -371,6 +439,8 @@ export class Perito implements OnInit {
     this.filterSearch = '';
   }
 
+  // ─── Status / Priority helpers ────────────────────────────────────────────
+
   getStatusLabel(status: string): string {
     const map: Record<string, string> = {
       'in_valutazione': 'In Valutazione',
@@ -384,18 +454,33 @@ export class Perito implements OnInit {
 
   getStatusClass(status: string): string {
     const map: Record<string, string> = {
-      'in_valutazione': 'badge-orange',
-      'assegnato': 'badge-blue',
-      'chiuso': 'badge-gray',
-      'in_attesa': 'badge-yellow',
-      'approvato': 'badge-green'
+      'in_valutazione': 'bg-orange-50 text-orange-700 border-orange-200',
+      'assegnato':      'bg-blue-50 text-blue-700 border-blue-200',
+      'chiuso':         'bg-slate-50 text-slate-500 border-slate-200',
+      'in_attesa':      'bg-yellow-50 text-yellow-700 border-yellow-100',
+      'approvato':      'bg-green-50 text-green-700 border-green-200'
     };
-    return map[status] || 'badge-gray';
+    return map[status] || 'bg-slate-50 text-slate-500 border-slate-200';
   }
 
   getPriorityClass(p: string): string {
-    const map: Record<string, string> = { 'alta': 'prio-alta', 'media': 'prio-media', 'bassa': 'prio-bassa' };
+    const map: Record<string, string> = {
+      'alta':  'bg-red-50 text-rose-600',
+      'media': 'bg-orange-50 text-orange-600',
+      'bassa': 'bg-green-50 text-green-600'
+    };
     return map[p] || '';
+  }
+
+  getRoleIcon(role: string): string {
+    const icons: Record<string, string> = {
+      'Perito':           'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+      'Automobilista':    'M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17h5',
+      'Assicurazione':    'M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z',
+      'Officina':         'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z',
+      'Supporto Stradale':'M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z'
+    };
+    return icons[role] || icons['Perito'];
   }
 
   get totalArchiveAmount(): number {
