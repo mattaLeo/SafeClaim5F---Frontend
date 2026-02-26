@@ -1,0 +1,26 @@
+<nav class="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between sticky top-0 z-40">
+    <div class="flex items-center gap-8">
+      <div class="flex items-center gap-2">
+        <div class="bg-[#1E40AF] p-2 rounded-lg shadow-lg shadow-blue-200">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+        <span class="text-xl font-black tracking-tighter text-[#1E40AF]">SafeClaim</span>
+      </div>
+    </div>
+
+    <button type="button" class="flex items-center gap-3 cursor-pointer group bg-slate-50 p-1.5 pr-4 rounded-xl hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200">
+      <div class="w-9 h-9 bg-[#1E40AF] rounded-lg flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-100">
+          LM
+      </div>
+      <div class="text-left hidden sm:block">
+        <p class="text-[10px] font-black text-slate-400 uppercase leading-none tracking-widest">Profilo</p>
+        <p class="text-xs font-bold text-[#0F172A]">Leonardo Matta</p>
+      </div>
+      <svg class="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+</nav>
+<router-outlet></router-outlet>
