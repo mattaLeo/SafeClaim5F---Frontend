@@ -1,26 +1,184 @@
-<nav class="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between sticky top-0 z-40">
-    <div class="flex items-center gap-8">
-      <div class="flex items-center gap-2">
-        <div class="bg-[#1E40AF] p-2 rounded-lg shadow-lg shadow-blue-200">
-          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-          </svg>
-        </div>
-        <span class="text-xl font-black tracking-tighter text-[#1E40AF]">SafeClaim</span>
-      </div>
-    </div>
+<!-- SIDEBAR OVERLAY -->
+<div
+  *ngIf="sidebarOpen && !isAuthPage"
+  class="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 transition-all"
+  (click)="closeSidebar()"
+></div>
 
-    <button type="button" class="flex items-center gap-3 cursor-pointer group bg-slate-50 p-1.5 pr-4 rounded-xl hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200">
-      <div class="w-9 h-9 bg-[#1E40AF] rounded-lg flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-100">
-          LM
-      </div>
-      <div class="text-left hidden sm:block">
-        <p class="text-[10px] font-black text-slate-400 uppercase leading-none tracking-widest">Profilo</p>
-        <p class="text-xs font-bold text-[#0F172A]">Leonardo Matta</p>
-      </div>
-      <svg class="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+<!-- SIDEBAR PANEL -->
+<div
+  *ngIf="!isAuthPage"
+  class="fixed top-0 right-0 h-full w-80 bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col"
+  [class.translate-x-full]="!sidebarOpen"
+  [class.translate-x-0]="sidebarOpen"
+>
+  <!-- Header -->
+  <div class="flex items-center justify-between px-6 pt-6 pb-4 border-b border-slate-100">
+    <h2 class="text-base font-black text-[#0F172A] tracking-tight">Profilo Utente</h2>
+    <button
+      (click)="closeSidebar()"
+      class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </button>
+  </div>
+
+  <!-- Avatar + Name -->
+  <div class="flex flex-col items-center px-6 py-8 border-b border-slate-100">
+    <div class="w-20 h-20 bg-[#1E40AF] rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-blue-200 mb-4">
+      {{ initials }}
+    </div>
+    <p class="text-lg font-black text-[#0F172A] tracking-tight uppercase">{{ userName }}</p>
+    <p class="text-sm font-semibold text-slate-400 mt-1">{{ userCode }}</p>
+  </div>
+
+  <!-- Cambia Ruolo -->
+  <div class="px-6 py-6 flex-1 overflow-y-auto">
+    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Cambia Ruolo</p>
+
+    <div class="flex flex-col gap-2">
+      <!-- Perito -->
+      <button
+        (click)="switchRole('perito')"
+        class="w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all duration-200 group"
+        [ngClass]="currentRole === 'perito'
+          ? 'border-[#1E40AF] bg-blue-50 shadow-sm shadow-blue-100'
+          : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
+            [ngClass]="currentRole === 'perito' ? 'bg-[#1E40AF]' : 'bg-slate-100 group-hover:bg-slate-200'"
+          >
+            <svg class="w-4 h-4" [class]="currentRole === 'perito' ? 'text-white' : 'text-slate-500'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <span
+            class="text-sm font-bold transition-colors"
+            [ngClass]="currentRole === 'perito' ? 'text-[#1E40AF]' : 'text-slate-600'"
+          >Perito</span>
+        </div>
+        <div
+          *ngIf="currentRole === 'perito'"
+          class="w-2 h-2 rounded-full bg-[#1E40AF]"
+        ></div>
+      </button>
+
+      <!-- Automobilista -->
+      <button
+        (click)="switchRole('automobilista')"
+        class="w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all duration-200 group"
+        [ngClass]="currentRole === 'automobilista'
+          ? 'border-[#1E40AF] bg-blue-50 shadow-sm shadow-blue-100'
+          : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
+            [ngClass]="currentRole === 'automobilista' ? 'bg-[#1E40AF]' : 'bg-slate-100 group-hover:bg-slate-200'"
+          >
+            <svg class="w-4 h-4" [class]="currentRole === 'automobilista' ? 'text-white' : 'text-slate-500'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17l-3-3m0 0l3-3m-3 3h12m-8 4H6a2 2 0 01-2-2V6a2 2 0 012-2h8l4 4v10a2 2 0 01-2 2h-2" />
+            </svg>
+          </div>
+          <span
+            class="text-sm font-bold transition-colors"
+            [ngClass]="currentRole === 'automobilista' ? 'text-[#1E40AF]' : 'text-slate-600'"
+          >Automobilista</span>
+        </div>
+        <div
+          *ngIf="currentRole === 'automobilista'"
+          class="w-2 h-2 rounded-full bg-[#1E40AF]"
+        ></div>
+      </button>
+
+      <!-- Assicurazione -->
+      <button
+        (click)="switchRole('assicurazione')"
+        class="w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all duration-200 group"
+        [ngClass]="currentRole === 'assicurazione'
+          ? 'border-[#1E40AF] bg-blue-50 shadow-sm shadow-blue-100'
+          : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
+            [ngClass]="currentRole === 'assicurazione' ? 'bg-[#1E40AF]' : 'bg-slate-100 group-hover:bg-slate-200'"
+          >
+            <svg class="w-4 h-4" [class]="currentRole === 'assicurazione' ? 'text-white' : 'text-slate-500'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          <span
+            class="text-sm font-bold transition-colors"
+            [ngClass]="currentRole === 'assicurazione' ? 'text-[#1E40AF]' : 'text-slate-600'"
+          >Assicurazione</span>
+        </div>
+        <div
+          *ngIf="currentRole === 'assicurazione'"
+          class="w-2 h-2 rounded-full bg-[#1E40AF]"
+        ></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer Actions -->
+  <div class="px-6 pb-8 pt-4 border-t border-slate-100 flex flex-col gap-1">
+    <button
+      class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition-all text-sm font-semibold"
+    >
+      <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+      Impostazioni
+    </button>
+
+    <button
+      (click)="logout()"
+      class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 transition-all text-sm font-bold"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+      </svg>
+      Disconnetti
+    </button>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between sticky top-0 z-40">
+  <div class="flex items-center gap-8">
+    <button (click)="goHome()" class="flex items-center gap-2 cursor-pointer group">
+      <div class="bg-[#1E40AF] p-2 rounded-lg shadow-lg shadow-blue-200 group-hover:bg-[#1d3a9e] transition-colors">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+      </div>
+      <span class="text-xl font-black tracking-tighter text-[#1E40AF] group-hover:text-[#1d3a9e] transition-colors">SafeClaim</span>
+    </button>
+  </div>
+
+  <button
+    *ngIf="!isAuthPage"
+    type="button"
+    (click)="openSidebar()"
+    class="flex items-center gap-3 cursor-pointer group bg-slate-50 p-1.5 pr-4 rounded-xl hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200"
+  >
+    <div class="w-9 h-9 bg-[#1E40AF] rounded-lg flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-100">
+      {{ initials }}
+    </div>
+    <div class="text-left hidden sm:block">
+      <p class="text-[10px] font-black text-slate-400 uppercase leading-none tracking-widest">Profilo</p>
+      <p class="text-xs font-bold text-[#0F172A]">{{ userName }}</p>
+    </div>
+    <svg class="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
 </nav>
+
 <router-outlet></router-outlet>
