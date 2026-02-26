@@ -3,6 +3,6 @@ export interface sinistro{
     targa: string
     data: Date
     descrizione: string
-    stato: "APERTO" | "CHUISO" | "IN ANALISI" | string
+    stato: "APERTO" | "CHIUSO" | "IN ANALISI" | string
     data_creazione: Date
 }

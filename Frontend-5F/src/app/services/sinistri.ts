@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 
 export class Sinistri {
 
+  link = "https://sturdy-space-train-wrrww9x6prwjf9vw9-6000.app.github.dev/"
   obs!: Observable<sinistro[]>
   sinistri!: sinistro[]
 
@@ -16,7 +17,13 @@ export class Sinistri {
     
   }
 
-  getSinistri(){
-    
+  askSinistri(){
+    this.obs = this.http.get<sinistro[]>(`${this.link}/`)
+    this.obs.subscribe(data => this.getSinistri(data))
+  }
+
+  getSinistri(d: sinistro[]){
+    this.sinistri = d
+    console.log(this.sinistri)
   }
 }
