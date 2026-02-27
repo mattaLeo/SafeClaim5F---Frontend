@@ -15,8 +15,10 @@ export class Sinistri {
   obsSinistroId!: Observable<sinistro>
   obsCreateSinistro!: Observable<any>
 
-  sinistri!: sinistro[]
+  sinistri: sinistro[] = [];
   sinistroById!: sinistro
+
+  
 
   constructor(public http: HttpClient){
     
@@ -44,13 +46,21 @@ export class Sinistri {
 
   createSinistro(automobilista_id: number, targa: string, data_evento: Date, descrizione: string){
     let newSinistro = {
-      automobilista_id: automobilista_id,
+      id_automobilista: automobilista_id,
       targa: targa,
       data_evento: data_evento,
       descrizione: descrizione
     }
 
-    this.obsCreateSinistro = this.http.post(`${this.link}sinistro`, newSinistro)
-    this.obsCreateSinistro.subscribe(res => console.log(res))
+    this.sinistri.push(newSinistro as sinistro) // add to local list for immediate UI update, backend will assign an ID
+
+
+    // keep a reference to the observable for debugging, but also return it
+    this.obsCreateSinistro = this.http.post(`${this.link}sinistro`, newSinistro);
+    // subscribe here just to log the result, callers can still subscribe on the return value
+    this.obsCreateSinistro.subscribe(res => console.log(res));
+    console.log(this.sinistri); 
+    return this.obsCreateSinistro;
   }
+
 }
