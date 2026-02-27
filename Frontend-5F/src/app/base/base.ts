@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 export type UserRole = 'perito' | 'automobilista' | 'assicurazione';
 
 @Component({
   selector: 'app-base',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, RouterLink, CommonModule],
   templateUrl: './base.html',
   styleUrl: './base.css',
 })
@@ -18,6 +19,8 @@ export class Base implements OnInit {
   userName = 'Leonardo Matta';
   userCode = 'P-9928';
   currentRole: UserRole = 'perito';
+
+  isHomePage = false;
 
   get initials(): string {
     return this.userName
@@ -36,11 +39,22 @@ export class Base implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // Leggi il ruolo salvato (es. da localStorage o da un AuthService)
     const savedRole = localStorage.getItem('userRole') as UserRole;
     if (savedRole) {
       this.currentRole = savedRole;
     }
+
+    this.checkHomePage(this.router.url);
+
+    this.router.events
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe((e: any) => {
+        this.checkHomePage(e.urlAfterRedirects || e.url);
+      });
+  }
+
+  private checkHomePage(url: string): void {
+    this.isHomePage = url === '/' || url === '';
   }
 
   openSidebar(): void {
@@ -55,7 +69,6 @@ export class Base implements OnInit {
     this.currentRole = role;
     localStorage.setItem('userRole', role);
 
-    // Naviga alla route corrispondente al ruolo
     const routeMap: Record<UserRole, string> = {
       perito: '/perito',
       automobilista: '/automobilista',
@@ -64,6 +77,14 @@ export class Base implements OnInit {
 
     this.router.navigate([routeMap[role]]);
     this.closeSidebar();
+  }
+
+  navigateToSignup(role: UserRole): void {
+    this.router.navigate(['/signup'], { queryParams: { role } });
+  }
+
+  navigateToSignin(): void {
+    this.router.navigate(['/signin']);
   }
 
   goHome(): void {
