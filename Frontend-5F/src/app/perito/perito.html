@@ -6,7 +6,7 @@
 
       <button (click)="setView('dashboard')"
         [ngClass]="currentView === 'dashboard'
-          ? 'px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg text-[#1E40AF] bg-blue-50 flex items-center gap-2 transition-all'
+          ? 'px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg text-[#09637E] bg-[#EBF4F6] flex items-center gap-2 transition-all'
           : 'px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-all'">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
@@ -17,7 +17,7 @@
 
       <button (click)="setView('archivio')"
         [ngClass]="currentView === 'archivio'
-          ? 'px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg text-[#1E40AF] bg-blue-50 flex items-center gap-2 transition-all'
+          ? 'px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg text-[#09637E] bg-[#EBF4F6] flex items-center gap-2 transition-all'
           : 'px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-all'">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
@@ -28,7 +28,7 @@
 
       <button (click)="setView('relazioni')"
         [ngClass]="currentView === 'relazioni'
-          ? 'px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg text-[#1E40AF] bg-blue-50 flex items-center gap-2 transition-all'
+          ? 'px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg text-[#09637E] bg-[#EBF4F6] flex items-center gap-2 transition-all'
           : 'px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 flex items-center gap-2 transition-all'">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
@@ -48,7 +48,7 @@
       <!-- BENVENUTO -->
       <div class="animate-fade-down">
         <h1 class="text-3xl font-black tracking-tight text-slate-900">
-          BENTORNATO, <span class="text-[#1E40AF]">{{ user.full_name }}</span>
+          BENTORNATO, <span class="text-[#09637E]">{{ user.full_name }}</span>
         </h1>
         <p class="text-sm text-slate-400 mt-1">Ecco un riepilogo delle tue perizie e incarichi attivi</p>
       </div>
@@ -135,13 +135,13 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <input [(ngModel)]="filterSearch" type="text" placeholder="Codice, veicolo, luogo..."
-                class="w-full pl-9 pr-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
+                class="w-full pl-9 pr-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]" />
             </div>
           </div>
           <div>
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Stato</label>
             <select [(ngModel)]="filterStatus"
-              class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]">
+              class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]">
               <option value="">Tutti</option>
               <option value="in_valutazione">In Valutazione</option>
               <option value="assegnato">Assegnato</option>
@@ -153,7 +153,7 @@
           <div>
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Priorità</label>
             <select [(ngModel)]="filterPriority"
-              class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]">
+              class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]">
               <option value="">Tutte</option>
               <option value="alta">Alta</option>
               <option value="media">Media</option>
@@ -184,7 +184,7 @@
                 @for (c of filteredClaims; track c.id) {
                   <tr class="border-b border-slate-50 hover:bg-slate-50/60 transition-colors group cursor-pointer" (click)="openClaimDetail(c)">
                     <td class="px-4 py-3.5">
-                      <div class="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                      <div class="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center text-slate-400 group-hover:bg-[#EBF4F6] group-hover:text-[#088395] transition-colors">
                         @if (getVehicleType(c.vehicle) === 'motorcycle') {
                           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="17" r="2" stroke-width="1.8"/><circle cx="19" cy="17" r="2" stroke-width="1.8"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 17l1.5-5h7l3-4h2l1.5 4-3 1"/></svg>
                         } @else if (getVehicleType(c.vehicle) === 'truck') {
@@ -198,14 +198,14 @@
                         }
                       </div>
                     </td>
-                    <td class="px-4 py-3.5 text-[0.8rem] font-black text-[#1E40AF] whitespace-nowrap">{{ c.code }}</td>
+                    <td class="px-4 py-3.5 text-[0.8rem] font-black text-[#09637E] whitespace-nowrap">{{ c.code }}</td>
                     <td class="px-4 py-3.5 text-[0.8rem] text-slate-600 whitespace-nowrap font-semibold">{{ c.type }}</td>
                     <td class="px-4 py-3.5">
                       <span class="inline-flex items-center px-2.5 py-0.5 bg-slate-50 border border-slate-200 rounded-md text-[0.7rem] font-semibold text-slate-500">{{ c.vehicle }}</span>
                     </td>
                     <td class="px-4 py-3.5 text-[0.8rem] text-slate-500 whitespace-nowrap max-w-[160px] truncate">{{ c.location }}</td>
                     <td class="px-4 py-3.5">
-                      <span class="inline-flex items-center px-2.5 py-0.5 bg-blue-50 border border-blue-100 rounded-md text-[0.7rem] font-semibold text-blue-600">{{ c.insuranceCompany }}</span>
+                      <span class="inline-flex items-center px-2.5 py-0.5 bg-[#EBF4F6] border border-[#7AB2B2]/30 rounded-md text-[0.7rem] font-semibold text-[#088395]">{{ c.insuranceCompany }}</span>
                     </td>
                     <td class="px-4 py-3.5 text-[0.8rem] text-slate-500 whitespace-nowrap">{{ c.date }}</td>
                     <td class="px-4 py-3.5 text-[0.8rem] font-black text-emerald-600 whitespace-nowrap">
@@ -231,7 +231,7 @@
                     <td colspan="11" class="py-16 text-center">
                       <svg class="w-12 h-12 text-slate-200 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                       <p class="text-sm font-black text-slate-300">Nessuna perizia trovata</p>
-                      <button (click)="resetFilters()" class="mt-3 text-xs font-black text-blue-600 hover:underline">Rimuovi i filtri</button>
+                      <button (click)="resetFilters()" class="mt-3 text-xs font-black text-[#088395] hover:underline">Rimuovi i filtri</button>
                     </td>
                   </tr>
                 }
@@ -248,7 +248,7 @@
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-2xl font-black tracking-tight">Relazioni Peritali</h2>
           <button (click)="openNewRelazione()"
-            class="flex items-center gap-2 px-4 py-2 text-xs font-black text-white bg-[#1E40AF] rounded-lg hover:bg-blue-700 transition-all uppercase shadow-lg shadow-blue-900/20">
+            class="flex items-center gap-2 px-4 py-2 text-xs font-black text-white bg-[#09637E] rounded-lg hover:bg-[#088395] transition-all uppercase shadow-lg shadow-[#063d4a]/20">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
             Nuova Relazione
           </button>
@@ -266,12 +266,12 @@
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer p-5"
               (click)="openRelazioneDetail(rel)">
               <div class="flex items-start justify-between mb-4">
-                <div class="w-10 h-10 bg-blue-50 text-[#1E40AF] rounded-xl flex items-center justify-center flex-shrink-0">
+                <div class="w-10 h-10 bg-[#EBF4F6] text-[#09637E] rounded-xl flex items-center justify-center flex-shrink-0">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 </div>
                 <span [class]="'text-[10px] font-black px-2.5 py-1 rounded-lg ' + getRelazioneStatusClass(rel.status)">{{ rel.status }}</span>
               </div>
-              <p class="text-xs font-black text-[#1E40AF] mb-1">{{ rel.claimCode }}</p>
+              <p class="text-xs font-black text-[#09637E] mb-1">{{ rel.claimCode }}</p>
               <h3 class="text-sm font-black text-slate-800 mb-1 truncate">{{ rel.title }}</h3>
               <p class="text-xs text-slate-400 font-semibold mb-3">{{ rel.vehicle }}</p>
               @if (rel.estimatedDamage) {
@@ -283,7 +283,7 @@
                   Modifica
                 </button>
                 <button (click)="$event.stopPropagation(); exportRelazione(rel)"
-                  class="flex-1 py-2 text-[10px] font-black text-[#1E40AF] border border-blue-200 bg-blue-50 rounded-lg hover:bg-blue-100 transition-all uppercase">
+                  class="flex-1 py-2 text-[10px] font-black text-[#09637E] border border-[#7AB2B2]/60 bg-[#EBF4F6] rounded-lg hover:bg-[#7AB2B2]/20 transition-all uppercase">
                   Esporta PDF
                 </button>
               </div>
@@ -302,7 +302,7 @@
       <div class="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col sidebar-slide-in overflow-hidden">
         <div class="p-6 border-b border-slate-100 flex items-start justify-between">
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 bg-blue-50 text-[#1E40AF] rounded-xl flex items-center justify-center flex-shrink-0">
+            <div class="w-12 h-12 bg-[#EBF4F6] text-[#09637E] rounded-xl flex items-center justify-center flex-shrink-0">
               @if (getVehicleType(selectedClaim.vehicle) === 'motorcycle') {
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="17" r="2" stroke-width="1.8"/><circle cx="19" cy="17" r="2" stroke-width="1.8"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 17l1.5-5h7l3-4h2l1.5 4-3 1"/></svg>
               } @else if (getVehicleType(selectedClaim.vehicle) === 'truck') {
@@ -352,7 +352,7 @@
             <div class="h-px bg-slate-100"></div>
             <div class="flex justify-between items-center text-sm">
               <span class="text-xs font-black text-slate-400 uppercase tracking-wider">Assicurazione</span>
-              <span class="inline-flex items-center px-2.5 py-0.5 bg-blue-50 border border-blue-100 rounded-md text-xs font-semibold text-blue-600">{{ selectedClaim.insuranceCompany }}</span>
+              <span class="inline-flex items-center px-2.5 py-0.5 bg-[#EBF4F6] border border-[#7AB2B2]/30 rounded-md text-xs font-semibold text-[#088395]">{{ selectedClaim.insuranceCompany }}</span>
             </div>
             @if (selectedClaim.amount) {
               <div class="h-px bg-slate-100"></div>
@@ -365,7 +365,7 @@
           <div>
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-2">Note Perizia</label>
             <textarea rows="4" placeholder="Aggiungi note o osservazioni sul sinistro..."
-              class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all resize-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]"></textarea>
+              class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all resize-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]"></textarea>
           </div>
         </div>
 
@@ -375,7 +375,7 @@
             Contatta Assicurazione
           </button>
           <button (click)="openRelazioneFromClaim(selectedClaim)"
-            class="flex-1 py-3 text-xs font-black text-white bg-[#1E40AF] rounded-xl hover:bg-blue-700 transition-all uppercase tracking-wider shadow-lg shadow-blue-900/20">
+            class="flex-1 py-3 text-xs font-black text-white bg-[#09637E] rounded-xl hover:bg-[#088395] transition-all uppercase tracking-wider shadow-lg shadow-[#063d4a]/20">
             Avvia Perizia
           </button>
         </div>
@@ -392,7 +392,7 @@
           <div>
             <h2 class="text-lg font-black text-slate-900">{{ editingRelazione.id ? 'Modifica Relazione' : 'Nuova Relazione' }}</h2>
             @if (editingRelazione.claimCode) {
-              <p class="text-xs font-bold text-[#1E40AF] mt-0.5">{{ editingRelazione.claimCode }}</p>
+              <p class="text-xs font-bold text-[#09637E] mt-0.5">{{ editingRelazione.claimCode }}</p>
             }
           </div>
           <button (click)="closeRelazione()" class="p-2 hover:bg-slate-50 rounded-lg text-slate-400 transition-colors">
@@ -404,7 +404,7 @@
           <div>
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Codice Sinistro</label>
             <select [(ngModel)]="editingRelazione.claimCode"
-              class="w-full px-3 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]">
+              class="w-full px-3 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]">
               <option value="">Seleziona sinistro...</option>
               @for (c of allClaims; track c.id) {
                 <option [value]="c.code">{{ c.code }} — {{ c.vehicle }}</option>
@@ -414,7 +414,7 @@
           <div>
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Titolo Relazione</label>
             <input [(ngModel)]="editingRelazione.title" type="text" placeholder="Es. Perizia Collisione Frontale"
-              class="w-full px-3 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
+              class="w-full px-3 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]" />
           </div>
           <div>
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-2">Tipo Danno</label>
@@ -422,7 +422,7 @@
               @for (tipo of tipiDanno; track tipo) {
                 <button (click)="editingRelazione.tipoDanno = tipo"
                   [ngClass]="editingRelazione.tipoDanno === tipo
-                    ? 'px-3 py-1.5 text-xs font-black rounded-lg border-[1.5px] border-blue-800 bg-blue-50 text-blue-800 transition-all'
+                    ? 'px-3 py-1.5 text-xs font-black rounded-lg border-[1.5px] border-[#09637E] bg-[#EBF4F6] text-[#09637E] transition-all'
                     : 'px-3 py-1.5 text-xs font-black rounded-lg border-[1.5px] border-slate-200 bg-white text-slate-500 hover:border-slate-300 transition-all'">
                   {{ tipo }}
                 </button>
@@ -432,7 +432,7 @@
           <div>
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Stima Danno (€)</label>
             <input [(ngModel)]="editingRelazione.estimatedDamage" type="number" placeholder="0"
-              class="w-full px-3 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
+              class="w-full px-3 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]" />
           </div>
           <div>
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-2">Parti Danneggiate</label>
@@ -450,7 +450,7 @@
               @for (p of partiDisponibili; track p) {
                 @if (!editingRelazione.partiDanneggiate.includes(p)) {
                   <button (click)="addParte(p)"
-                    class="px-3 py-1 text-xs font-black text-slate-500 bg-slate-50 border border-slate-200 rounded-lg hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-all">
+                    class="px-3 py-1 text-xs font-black text-slate-500 bg-slate-50 border border-slate-200 rounded-lg hover:bg-[#EBF4F6] hover:text-[#09637E] hover:border-[#7AB2B2]/60 transition-all">
                     + {{ p }}
                   </button>
                 }
@@ -461,7 +461,7 @@
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Descrizione Tecnica</label>
             <textarea [(ngModel)]="editingRelazione.description" rows="4"
               placeholder="Descrivi i danni rilevati durante l'ispezione..."
-              class="w-full px-3 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all resize-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]"></textarea>
+              class="w-full px-3 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all resize-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]"></textarea>
           </div>
           <div>
             <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-2">Conclusione</label>
@@ -469,7 +469,7 @@
               @for (c of conclusioni; track c) {
                 <button (click)="editingRelazione.conclusione = c"
                   [ngClass]="editingRelazione.conclusione === c
-                    ? 'px-3 py-1.5 text-xs font-black rounded-lg border-[1.5px] border-blue-800 bg-blue-50 text-blue-800 transition-all'
+                    ? 'px-3 py-1.5 text-xs font-black rounded-lg border-[1.5px] border-[#09637E] bg-[#EBF4F6] text-[#09637E] transition-all'
                     : 'px-3 py-1.5 text-xs font-black rounded-lg border-[1.5px] border-slate-200 bg-white text-slate-500 hover:border-slate-300 transition-all'">
                   {{ c }}
                 </button>
@@ -484,7 +484,7 @@
             Annulla
           </button>
           <button (click)="saveRelazione()"
-            class="flex-1 py-3 text-xs font-black text-white bg-[#1E40AF] rounded-xl hover:bg-blue-700 transition-all uppercase shadow-lg shadow-blue-900/20">
+            class="flex-1 py-3 text-xs font-black text-white bg-[#09637E] rounded-xl hover:bg-[#088395] transition-all uppercase shadow-lg shadow-[#063d4a]/20">
             Salva Relazione
           </button>
         </div>
@@ -505,7 +505,7 @@
         </div>
         <div class="flex-1 overflow-y-auto p-6 space-y-8">
           <div class="text-center space-y-3">
-            <div class="w-20 h-20 bg-[#1E40AF] rounded-2xl mx-auto flex items-center justify-center text-3xl text-white font-black shadow-xl shadow-blue-200">
+            <div class="w-20 h-20 bg-[#09637E] rounded-2xl mx-auto flex items-center justify-center text-3xl text-white font-black shadow-xl shadow-[#7AB2B2]/40">
               {{ user.full_name[0] }}
             </div>
             <div>
@@ -518,7 +518,7 @@
             @for (role of roles; track role) {
               <button (click)="switchRole(role)"
                 [class]="currentRole === role
-                  ? 'w-full flex items-center justify-between p-3 px-4 border-[1.5px] border-blue-800 rounded-xl font-bold text-[0.82rem] text-blue-800 bg-blue-50 transition-all cursor-pointer'
+                  ? 'w-full flex items-center justify-between p-3 px-4 border-[1.5px] border-[#09637E] rounded-xl font-bold text-[0.82rem] text-[#09637E] bg-[#EBF4F6] transition-all cursor-pointer'
                   : 'w-full flex items-center justify-between p-3 px-4 border-[1.5px] border-slate-100 rounded-xl font-bold text-[0.82rem] text-slate-500 bg-white hover:bg-slate-50 hover:border-slate-200 transition-all cursor-pointer'">
                 <div class="flex items-center gap-3">
                   <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -527,7 +527,7 @@
                   {{ role }}
                 </div>
                 @if (currentRole === role) {
-                  <div class="w-2 h-2 bg-blue-600 rounded-full"></div>
+                  <div class="w-2 h-2 bg-[#088395] rounded-full"></div>
                 }
               </button>
             }
@@ -557,7 +557,7 @@
         <div class="p-6 border-b border-slate-100 flex items-center justify-between">
           <div>
             <div class="flex items-center gap-2 mb-1">
-              <div class="w-7 h-7 bg-[#1E40AF] rounded-lg flex items-center justify-center">
+              <div class="w-7 h-7 bg-[#09637E] rounded-lg flex items-center justify-center">
                 <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/></svg>
               </div>
               <h2 class="text-lg font-black">Impostazioni</h2>
@@ -574,15 +574,15 @@
             <div class="space-y-4">
               <div>
                 <label class="block text-[0.7rem] font-extrabold text-slate-500 mb-1.5 uppercase tracking-[0.05em]">Nome Completo</label>
-                <input [(ngModel)]="settings.full_name" type="text" class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
+                <input [(ngModel)]="settings.full_name" type="text" class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]" />
               </div>
               <div>
                 <label class="block text-[0.7rem] font-extrabold text-slate-500 mb-1.5 uppercase tracking-[0.05em]">Email</label>
-                <input [(ngModel)]="settings.email" type="email" class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
+                <input [(ngModel)]="settings.email" type="email" class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]" />
               </div>
               <div>
                 <label class="block text-[0.7rem] font-extrabold text-slate-500 mb-1.5 uppercase tracking-[0.05em]">Telefono</label>
-                <input [(ngModel)]="settings.phone" type="tel" class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
+                <input [(ngModel)]="settings.phone" type="tel" class="w-full px-3.5 py-2.5 text-[0.85rem] font-semibold border-[1.5px] border-slate-200 rounded-xl bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]" />
               </div>
             </div>
           </section>
@@ -596,7 +596,7 @@
                 </div>
                 <div class="relative">
                   <input type="checkbox" [(ngModel)]="settings.notifications_email" class="sr-only peer" />
-                  <div class="w-10 h-[1.35rem] bg-slate-300 rounded-full transition-colors peer-checked:bg-blue-600"></div>
+                  <div class="w-10 h-[1.35rem] bg-slate-300 rounded-full transition-colors peer-checked:bg-[#088395]"></div>
                   <div class="absolute top-[0.2rem] left-[0.2rem] w-[0.95rem] h-[0.95rem] bg-white rounded-full shadow-sm transition-transform peer-checked:translate-x-5"></div>
                 </div>
               </label>
@@ -607,7 +607,7 @@
                 </div>
                 <div class="relative">
                   <input type="checkbox" [(ngModel)]="settings.notifications_sms" class="sr-only peer" />
-                  <div class="w-10 h-[1.35rem] bg-slate-300 rounded-full transition-colors peer-checked:bg-blue-600"></div>
+                  <div class="w-10 h-[1.35rem] bg-slate-300 rounded-full transition-colors peer-checked:bg-[#088395]"></div>
                   <div class="absolute top-[0.2rem] left-[0.2rem] w-[0.95rem] h-[0.95rem] bg-white rounded-full shadow-sm transition-transform peer-checked:translate-x-5"></div>
                 </div>
               </label>
@@ -640,7 +640,7 @@
           }
           <div class="flex gap-3">
             <button (click)="closeSettings()" class="flex-1 py-3 text-xs font-black text-slate-400 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all uppercase">Annulla</button>
-            <button (click)="saveSettings()" class="flex-1 py-3 text-xs font-black text-white bg-[#1E40AF] rounded-lg hover:bg-blue-700 transition-all uppercase shadow-lg shadow-blue-900/20">Salva Modifiche</button>
+            <button (click)="saveSettings()" class="flex-1 py-3 text-xs font-black text-white bg-[#09637E] rounded-lg hover:bg-[#088395] transition-all uppercase shadow-lg shadow-[#063d4a]/20">Salva Modifiche</button>
           </div>
         </div>
       </div>
@@ -665,7 +665,7 @@
             <div>
               <h3 class="text-lg font-black">Contatta l'Assicurazione</h3>
               @if (contactForm.claimCode) {
-                <p class="text-xs font-bold text-blue-600 mt-0.5">Rif. {{ contactForm.claimCode }}</p>
+                <p class="text-xs font-bold text-[#088395] mt-0.5">Rif. {{ contactForm.claimCode }}</p>
               }
             </div>
             <button (click)="closeContactModal()" class="p-2 hover:bg-slate-50 rounded-lg text-slate-400">
@@ -676,7 +676,7 @@
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Assicurazione</label>
-                <select [(ngModel)]="contactForm.insurance" class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]">
+                <select [(ngModel)]="contactForm.insurance" class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]">
                   <option value="">Seleziona...</option>
                   @for (ins of insuranceCompanies; track ins) {
                     <option [value]="ins">{{ ins }}</option>
@@ -685,7 +685,7 @@
               </div>
               <div>
                 <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Priorità</label>
-                <select [(ngModel)]="contactForm.priority" class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]">
+                <select [(ngModel)]="contactForm.priority" class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]">
                   <option value="bassa">Bassa</option>
                   <option value="normale">Normale</option>
                   <option value="urgente">Urgente</option>
@@ -695,12 +695,12 @@
             <div>
               <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Oggetto</label>
               <input [(ngModel)]="contactForm.subject" type="text" placeholder="Es. Aggiornamento stima danni"
-                class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]" />
+                class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all appearance-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]" />
             </div>
             <div>
               <label class="block text-[0.65rem] font-black uppercase tracking-[0.07em] text-slate-400 mb-1.5">Messaggio</label>
               <textarea [(ngModel)]="contactForm.message" rows="4" placeholder="Inserisci qui il tuo messaggio..."
-                class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all resize-none focus:border-blue-800 focus:bg-white focus:ring-[3px] focus:ring-blue-800/[0.08]"></textarea>
+                class="w-full px-3 py-2 text-[0.8rem] font-semibold border-[1.5px] border-slate-200 rounded-lg bg-slate-50 text-slate-900 outline-none transition-all resize-none focus:border-[#09637E] focus:bg-white focus:ring-[3px] focus:ring-[#09637E]/[0.08]"></textarea>
             </div>
             @if (contactForm.priority === 'urgente') {
               <div class="flex items-center gap-2 p-3 bg-red-50 border border-red-100 rounded-lg text-xs font-bold text-red-600">
