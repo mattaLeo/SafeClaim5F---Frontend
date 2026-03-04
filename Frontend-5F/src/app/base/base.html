@@ -25,7 +25,7 @@
   </div>
 
   <div class="flex flex-col items-center px-6 py-8 border-b border-slate-100">
-    <div class="w-20 h-20 bg-blue-800 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-blue-200 mb-4">
+    <div class="w-20 h-20 bg-[#09637E] rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-[#7AB2B2]/40 mb-4">
       {{ initials }}
     </div>
     <p class="text-lg font-black text-slate-900 tracking-tight uppercase">{{ userName }}</p>
@@ -38,49 +38,49 @@
       <!-- Perito -->
       <button (click)="switchRole('perito')"
         class="w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all duration-200 group"
-        [ngClass]="currentRole === 'perito' ? 'border-blue-800 bg-blue-50 shadow-sm shadow-blue-100' : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'">
+        [ngClass]="currentRole === 'perito' ? 'border-[#09637E] bg-[#EBF4F6] shadow-sm shadow-[#7AB2B2]/20' : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'">
         <div class="flex items-center gap-3">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
-            [ngClass]="currentRole === 'perito' ? 'bg-blue-800' : 'bg-slate-100 group-hover:bg-slate-200'">
+            [ngClass]="currentRole === 'perito' ? 'bg-[#09637E]' : 'bg-slate-100 group-hover:bg-slate-200'">
             <svg class="w-4 h-4" [class]="currentRole === 'perito' ? 'text-white' : 'text-slate-500'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
           </div>
-          <span class="text-sm font-bold transition-colors" [ngClass]="currentRole === 'perito' ? 'text-blue-800' : 'text-slate-600'">Perito</span>
+          <span class="text-sm font-bold transition-colors" [ngClass]="currentRole === 'perito' ? 'text-[#09637E]' : 'text-slate-600'">Perito</span>
         </div>
-        <div *ngIf="currentRole === 'perito'" class="w-2 h-2 rounded-full bg-blue-800"></div>
+        <div *ngIf="currentRole === 'perito'" class="w-2 h-2 rounded-full bg-[#09637E]"></div>
       </button>
 
       <!-- Automobilista -->
       <button (click)="switchRole('automobilista')"
         class="w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all duration-200 group"
-        [ngClass]="currentRole === 'automobilista' ? 'border-blue-800 bg-blue-50 shadow-sm shadow-blue-100' : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'">
+        [ngClass]="currentRole === 'automobilista' ? 'border-[#09637E] bg-[#EBF4F6] shadow-sm shadow-[#7AB2B2]/20' : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'">
         <div class="flex items-center gap-3">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
-            [ngClass]="currentRole === 'automobilista' ? 'bg-blue-800' : 'bg-slate-100 group-hover:bg-slate-200'">
+            [ngClass]="currentRole === 'automobilista' ? 'bg-[#09637E]' : 'bg-slate-100 group-hover:bg-slate-200'">
             <svg class="w-4 h-4" [class]="currentRole === 'automobilista' ? 'text-white' : 'text-slate-500'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17h5"/>
             </svg>
           </div>
-          <span class="text-sm font-bold transition-colors" [ngClass]="currentRole === 'automobilista' ? 'text-blue-800' : 'text-slate-600'">Automobilista</span>
+          <span class="text-sm font-bold transition-colors" [ngClass]="currentRole === 'automobilista' ? 'text-[#09637E]' : 'text-slate-600'">Automobilista</span>
         </div>
-        <div *ngIf="currentRole === 'automobilista'" class="w-2 h-2 rounded-full bg-blue-800"></div>
+        <div *ngIf="currentRole === 'automobilista'" class="w-2 h-2 rounded-full bg-[#09637E]"></div>
       </button>
 
       <!-- Assicurazione -->
       <button (click)="switchRole('assicurazione')"
         class="w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all duration-200 group"
-        [ngClass]="currentRole === 'assicurazione' ? 'border-blue-800 bg-blue-50 shadow-sm shadow-blue-100' : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'">
+        [ngClass]="currentRole === 'assicurazione' ? 'border-[#09637E] bg-[#EBF4F6] shadow-sm shadow-[#7AB2B2]/20' : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'">
         <div class="flex items-center gap-3">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
-            [ngClass]="currentRole === 'assicurazione' ? 'bg-blue-800' : 'bg-slate-100 group-hover:bg-slate-200'">
+            [ngClass]="currentRole === 'assicurazione' ? 'bg-[#09637E]' : 'bg-slate-100 group-hover:bg-slate-200'">
             <svg class="w-4 h-4" [class]="currentRole === 'assicurazione' ? 'text-white' : 'text-slate-500'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
           </div>
-          <span class="text-sm font-bold transition-colors" [ngClass]="currentRole === 'assicurazione' ? 'text-blue-800' : 'text-slate-600'">Assicurazione</span>
+          <span class="text-sm font-bold transition-colors" [ngClass]="currentRole === 'assicurazione' ? 'text-[#09637E]' : 'text-slate-600'">Assicurazione</span>
         </div>
-        <div *ngIf="currentRole === 'assicurazione'" class="w-2 h-2 rounded-full bg-blue-800"></div>
+        <div *ngIf="currentRole === 'assicurazione'" class="w-2 h-2 rounded-full bg-[#09637E]"></div>
       </button>
     </div>
   </div>
@@ -109,12 +109,12 @@
 <nav class="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between sticky top-0 z-40">
   <div class="flex items-center gap-6">
     <button (click)="goHome()" class="flex items-center gap-2 cursor-pointer group">
-      <div class="bg-blue-800 p-2 rounded-lg shadow-lg shadow-blue-200 group-hover:bg-blue-900 transition-colors">
+      <div class="bg-[#09637E] p-2 rounded-lg shadow-lg shadow-[#7AB2B2]/40 group-hover:bg-[#074f65] transition-colors">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
         </svg>
       </div>
-      <span class="text-xl font-black tracking-tighter text-blue-800 group-hover:text-blue-900 transition-colors">SafeClaim</span>
+      <span class="text-xl font-black tracking-tighter text-[#09637E] group-hover:text-[#074f65] transition-colors">SafeClaim</span>
     </button>
 
     <div *ngIf="isHomePage" class="hidden md:flex items-center gap-1">
@@ -131,14 +131,14 @@
         Accedi
       </button>
       <button (click)="navigateToSignup('perito')"
-        class="px-4 py-2 text-xs font-black text-white bg-blue-800 hover:bg-blue-900 rounded-lg transition-all shadow-md shadow-blue-200">
+        class="px-4 py-2 text-xs font-black text-white bg-[#09637E] hover:bg-[#074f65] rounded-lg transition-all shadow-md shadow-[#7AB2B2]/40">
         Inizia Gratis
       </button>
     </ng-container>
     <ng-template #profileBtn>
       <button *ngIf="!isAuthPage" type="button" (click)="openSidebar()"
         class="flex items-center gap-3 cursor-pointer group bg-slate-50 p-1.5 pr-4 rounded-xl hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200">
-        <div class="w-9 h-9 bg-blue-800 rounded-lg flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-100">
+        <div class="w-9 h-9 bg-[#09637E] rounded-lg flex items-center justify-center text-white font-black text-sm shadow-md shadow-[#7AB2B2]/20">
           {{ initials }}
         </div>
         <div class="text-left hidden sm:block">
@@ -159,13 +159,13 @@
 <ng-container *ngIf="isHomePage">
 
   <!-- ===== HERO ===== -->
-  <section class="relative min-h-[92vh] flex items-center overflow-hidden bg-gradient-to-br from-[#020b1a] via-[#0a1f4a] to-[#0f2d6e]">
+  <section class="relative min-h-[92vh] flex items-center overflow-hidden bg-gradient-to-br from-[#020e10] via-[#042830] to-[#063d4a]">
 
     <!-- Grid overlay -->
     <div class="hero-grid animate-grid-pulse pointer-events-none"></div>
 
     <!-- Ambient orbs -->
-    <div class="absolute -top-24 -right-20 w-[500px] h-[500px] rounded-full blur-[80px] bg-blue-500/20 pointer-events-none animate-orb-1"></div>
+    <div class="absolute -top-24 -right-20 w-[500px] h-[500px] rounded-full blur-[80px] bg-[#EBF4F6]0/20 pointer-events-none animate-orb-1"></div>
     <div class="absolute -bottom-16 -left-16 w-96 h-96 rounded-full blur-[80px] bg-emerald-500/10 pointer-events-none animate-orb-2"></div>
     <div class="absolute top-2/5 left-1/3 w-60 h-60 rounded-full blur-[80px] bg-indigo-500/10 pointer-events-none animate-orb-3"></div>
 
@@ -182,7 +182,7 @@
 
       <div class="animate-fade-up delay-2 flex flex-wrap items-center justify-center gap-4">
         <button (click)="navigateToSignup('perito')"
-          class="flex items-center gap-2 px-7 py-3.5 bg-white text-blue-800 text-sm font-black rounded-xl hover:bg-blue-50 transition-all shadow-xl shadow-black/20">
+          class="flex items-center gap-2 px-7 py-3.5 bg-white text-[#09637E] text-sm font-black rounded-xl hover:bg-[#EBF4F6] transition-all shadow-xl shadow-black/20">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
           </svg>
@@ -219,7 +219,7 @@
   </section>
 
   <!-- Wave divider -->
-  <div class="leading-none overflow-hidden bg-[#0a1f4a]">
+  <div class="leading-none overflow-hidden bg-[#042830]">
     <svg viewBox="0 0 1440 60" preserveAspectRatio="none" class="block w-full h-[60px]">
       <path d="M0,60 C360,0 1080,60 1440,0 L1440,60 Z" fill="#F1F5F9"/>
     </svg>
@@ -230,7 +230,7 @@
     <div class="max-w-7xl mx-auto px-6">
 
       <div class="text-center mb-14 animate-fade-down">
-        <span class="inline-block text-[10px] font-black text-blue-800 bg-blue-50 border border-blue-100 px-4 py-1.5 rounded-full uppercase tracking-[0.12em] mb-4">
+        <span class="inline-block text-[10px] font-black text-[#09637E] bg-[#EBF4F6] border border-[#7AB2B2]/30 px-4 py-1.5 rounded-full uppercase tracking-[0.12em] mb-4">
           Come Funziona
         </span>
         <h2 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Tre passi. Zero burocrazia.</h2>
@@ -242,13 +242,13 @@
       <div class="grid md:grid-cols-3 gap-6">
         <!-- Step 1 -->
         <div class="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:bg-white hover:border-slate-300 hover:translate-x-1 transition-all duration-200 animate-fade-up delay-1">
-          <div class="w-11 h-11 bg-blue-800 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-200">
+          <div class="w-11 h-11 bg-[#09637E] rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#7AB2B2]/40">
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
             </svg>
           </div>
           <div>
-            <p class="text-[10px] font-black text-blue-800 uppercase tracking-widest mb-1">01 — Denuncia</p>
+            <p class="text-[10px] font-black text-[#09637E] uppercase tracking-widest mb-1">01 — Denuncia</p>
             <h3 class="text-sm font-black text-slate-800 mb-1">Apri il Sinistro</h3>
             <p class="text-xs text-slate-500 leading-relaxed">L'automobilista carica foto e documenti direttamente dall'app in pochi minuti.</p>
           </div>
@@ -298,7 +298,7 @@
 
       <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-5">
         <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all duration-200 animate-fade-down delay-1 group">
-          <div class="w-10 h-10 bg-blue-100 text-blue-800 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <div class="w-10 h-10 bg-[#7AB2B2]/20 text-[#09637E] rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           </div>
           <h3 class="text-sm font-black text-slate-800 mb-1.5">Velocità</h3>
@@ -349,33 +349,33 @@
       <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
 
         <!-- PERITO -->
-        <div class="relative bg-white rounded-[20px] p-9 border-2 border-slate-200 hover:border-blue-800 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all duration-300 cursor-pointer overflow-hidden group animate-fade-up delay-1">
-          <div class="absolute inset-0 bg-gradient-to-br from-blue-800/[0.03] to-blue-400/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[18px]"></div>
+        <div class="relative bg-white rounded-[20px] p-9 border-2 border-slate-200 hover:border-[#09637E] hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/10 transition-all duration-300 cursor-pointer overflow-hidden group animate-fade-up delay-1">
+          <div class="absolute inset-0 bg-gradient-to-br from-[#09637E]/[0.03] to-blue-400/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[18px]"></div>
           <div class="relative z-10">
-            <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 shadow-lg shadow-blue-200 bg-gradient-to-br from-blue-800 to-blue-500 group-hover:scale-105 group-hover:-rotate-3 transition-transform duration-300">
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 shadow-lg shadow-[#7AB2B2]/40 bg-gradient-to-br from-[#09637E] to-[#7AB2B2] group-hover:scale-105 group-hover:-rotate-3 transition-transform duration-300">
               <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
             </div>
-            <span class="inline-block text-[9px] font-black text-blue-800 bg-blue-50 border border-blue-100 px-2.5 py-1 rounded-full uppercase tracking-widest mb-3">Perito Assicurativo</span>
+            <span class="inline-block text-[9px] font-black text-[#09637E] bg-[#EBF4F6] border border-[#7AB2B2]/30 px-2.5 py-1 rounded-full uppercase tracking-widest mb-3">Perito Assicurativo</span>
             <h3 class="text-lg font-black text-slate-900 mb-2">Sei un perito?</h3>
             <p class="text-xs text-slate-500 leading-relaxed mb-4">Gestisci incarichi, redigi relazioni peritali digitali e comunicati con le compagnie in modo efficiente.</p>
             <ul class="space-y-2 mb-6">
               <li class="flex items-center gap-2 text-xs text-slate-600 font-semibold">
-                <svg class="w-3.5 h-3.5 text-blue-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                <svg class="w-3.5 h-3.5 text-[#09637E] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                 Dashboard perizie in tempo reale
               </li>
               <li class="flex items-center gap-2 text-xs text-slate-600 font-semibold">
-                <svg class="w-3.5 h-3.5 text-blue-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                <svg class="w-3.5 h-3.5 text-[#09637E] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                 Redazione relazioni digitali
               </li>
               <li class="flex items-center gap-2 text-xs text-slate-600 font-semibold">
-                <svg class="w-3.5 h-3.5 text-blue-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                <svg class="w-3.5 h-3.5 text-[#09637E] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                 Esportazione PDF professionale
               </li>
             </ul>
             <button (click)="navigateToSignup('perito')"
-              class="w-full flex items-center justify-center gap-2 py-2.5 px-5 rounded-xl text-xs font-black text-white bg-blue-800 hover:bg-blue-900 hover:translate-x-0.5 transition-all shadow-lg shadow-blue-800/30 uppercase tracking-wide">
+              class="w-full flex items-center justify-center gap-2 py-2.5 px-5 rounded-xl text-xs font-black text-white bg-[#09637E] hover:bg-[#074f65] hover:translate-x-0.5 transition-all shadow-lg shadow-[#09637E]/30 uppercase tracking-wide">
               Registrati come Perito
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
             </button>
@@ -456,13 +456,13 @@
   </section>
 
   <!-- ===== CTA BANNER ===== -->
-  <section class="bg-blue-800 py-16">
+  <section class="bg-[#09637E] py-16">
     <div class="max-w-4xl mx-auto px-6 text-center">
       <h2 class="text-3xl font-black text-white mb-3 animate-fade-down">Pronto a semplificare i tuoi sinistri?</h2>
       <p class="text-white/60 text-sm mb-8 animate-fade-down delay-1">Crea il tuo account in meno di 2 minuti. Nessuna carta di credito richiesta.</p>
       <div class="flex flex-wrap justify-center gap-4 animate-fade-down delay-2">
         <button (click)="navigateToSignup('automobilista')"
-          class="px-8 py-3.5 bg-white text-blue-800 text-xs font-black rounded-xl hover:bg-blue-50 transition-all shadow-xl shadow-black/20 uppercase tracking-wider">
+          class="px-8 py-3.5 bg-white text-[#09637E] text-xs font-black rounded-xl hover:bg-[#EBF4F6] transition-all shadow-xl shadow-black/20 uppercase tracking-wider">
           Inizia Gratis
         </button>
         <button (click)="navigateToSignin()"
@@ -474,10 +474,10 @@
   </section>
 
   <!-- ===== FOOTER ===== -->
-  <footer class="bg-[#020b1a] py-12">
+  <footer class="bg-[#020e10] py-12">
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
       <div class="flex items-center gap-2">
-        <div class="bg-blue-800 p-2 rounded-lg">
+        <div class="bg-[#09637E] p-2 rounded-lg">
           <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
           </svg>
