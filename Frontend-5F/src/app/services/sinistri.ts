@@ -52,12 +52,9 @@ export class Sinistri {
       descrizione: descrizione
     }
 
-    this.sinistri.push(newSinistro as sinistro) // add to local list for immediate UI update, backend will assign an ID
+    this.sinistri.push(newSinistro as sinistro)
 
-
-    // keep a reference to the observable for debugging, but also return it
     this.obsCreateSinistro = this.http.post(`${this.link}sinistro`, newSinistro);
-    // subscribe here just to log the result, callers can still subscribe on the return value
     this.obsCreateSinistro.subscribe(res => console.log(res));
     console.log(this.sinistri); 
     return this.obsCreateSinistro;
