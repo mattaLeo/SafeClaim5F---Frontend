@@ -144,11 +144,24 @@
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-[#7AB2B2]/30">
           <div class="flex justify-between items-center mb-6">
             <h2 class="text-[10px] font-black text-[#7AB2B2] uppercase tracking-widest">I Miei Veicoli</h2>
-            <button class="text-[10px] font-black text-[#088395] uppercase hover:underline">Gestisci</button>
+            <button (click)="gestisciVeicoli()" class="text-[10px] font-black text-[#088395] uppercase hover:underline">Gestisci</button>
           </div>
-          <div class="py-6 text-center border-2 border-dashed border-[#EBF4F6] rounded-xl bg-[#EBF4F6]/50">
+
+          <div *ngIf="veicoliService.veicoli.length === 0" class="py-6 text-center border-2 border-dashed border-[#EBF4F6] rounded-xl bg-[#EBF4F6]/50">
             <i class="bi bi-car-front text-[#7AB2B2] text-2xl mb-2 block"></i>
             <p class="text-[#7AB2B2] text-[9px] font-black uppercase tracking-tighter">Nessun Veicolo Registrato</p>
+          </div>
+
+          <div *ngIf="veicoliService.veicoli.length > 0" class="space-y-3">
+            <div *ngFor="let v of veicoliService.veicoli" class="flex items-center gap-3 p-3 bg-[#EBF4F6]/40 rounded-xl border border-[#7AB2B2]/10 group hover:border-[#088395] transition-all">
+              <div class="bg-white p-2 rounded-lg text-[#088395] shadow-sm">
+                <i class="bi bi-car-front"></i>
+              </div>
+              <div>
+                <p class="text-[10px] font-black text-[#09637E] uppercase tracking-tight">{{ v.marca }} {{ v.modello }}</p>
+                <p class="text-[9px] text-slate-400 font-bold uppercase">{{ v.targa }}</p>
+              </div>
+            </div>
           </div>
         </div>
 
