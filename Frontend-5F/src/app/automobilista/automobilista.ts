@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NuovoSinistroComponent } from '../nuovo-sinistro/nuovo-sinistro.component';
 import { sinistro } from '../models/sinistro.model';
-import { VeicoliService } from '../services/veicoli'; // Importiamo il service dei veicoli
+import { VeicoliService } from '../services/veicoli'; 
+import { Veicolo } from '../models/veicolo.model'; // Importa anche il modello Veicolo
 
 @Component({
   selector: 'app-automobilista',
@@ -14,13 +15,29 @@ import { VeicoliService } from '../services/veicoli'; // Importiamo il service d
 export class Automobilista {
   showNewSinistro = false;
   sinistri: sinistro[] = [];
+  
+  // Variabile per memorizzare un eventuale veicolo singolo cercato
+  veicoloSelezionato: Veicolo | null = null;
 
-  // Aggiungiamo VeicoliService nel costruttore per usarlo nell'HTML
   constructor(public veicoliService: VeicoliService) {}
 
-  // Questa funzione viene chiamata dal tasto "Gestisci"
+  // Scarica tutti i veicoli (La lista finirà in veicoliService.veicoli)
   gestisciVeicoli(): void {
-    this.veicoliService.askVeicoli();
+    this.veicoliService.askVeicoli().subscribe({
+      next: (data) => console.log("Lista caricata con successo", data),
+      error: (err) => alert("Errore nel caricamento: " + err.error.error)
+    });
+  }
+
+  // Esempio: Funzione per cercare un veicolo specifico (es. da un input ID)
+  cercaSingoloVeicolo(id: number): void {
+    this.veicoliService.getVeicoloById(id).subscribe({
+      next: (v) => {
+        this.veicoloSelezionato = v;
+        console.log("Veicolo trovato:", v);
+      },
+      error: (err) => alert("Veicolo non trovato!")
+    });
   }
 
   openNewSinistro(): void {

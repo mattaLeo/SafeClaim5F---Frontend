@@ -1,27 +1,40 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Veicolo } from '../models/veicolo.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VeicoliService {
-  // Indirizzo del server (assicurati che sia quello attivo)
-  private link = 'https://supreme-space-happiness-v66xxgwrjjx9hj6v-5000.app.github.dev'; 
+  // Indirizzo del server
+  private link = 'https://ominous-waddle-977ppqw5g46wf99q4-5000.app.github.dev'; 
 
-  // Qui memorizziamo i veicoli scaricati dal server
+  // Array locale per mantenere i dati in memoria se serve
   public veicoli: Veicolo[] = [];
-  public obsVeicoli!: Observable<Veicolo[]>;
 
   constructor(private http: HttpClient) {}
 
-  // Funzione che scarica i dati e aggiorna l'array locale
-  askVeicoli() {
-    this.obsVeicoli = this.http.get<Veicolo[]>(this.link + '/veicoli');
-    this.obsVeicoli.subscribe((data) => {
-      this.veicoli = data;
-      console.log("Veicoli aggiornati:", this.veicoli);
-    });
+  /**
+   * Recupera TUTTI i veicoli
+   * Uso 'tap' per aggiornare l'array locale senza "rompere" l'observable
+   */
+  askVeicoli(): Observable<Veicolo[]> {
+    return this.http.get<Veicolo[]>(`${this.link}/veicoli`).pipe(
+      tap((data) => {
+        this.veicoli = data;
+        console.log("Lista veicoli aggiornata:", this.veicoli);
+      })
+    );
+  }
+
+  /**
+   * Recupera un SINGOLO veicolo per ID
+   * Corrisponde alla tua rotta Flask: @app.route('/veicoli/<int:id>')
+   */
+  getVeicoloById(id: number): Observable<Veicolo> {
+    return this.http.get<Veicolo>(`${this.link}/veicoli/${id}`).pipe(
+      tap((data) => console.log(`Dettaglio veicolo ${id}:`, data))
+    );
   }
 }
