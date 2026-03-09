@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Fondamentale per *ngIf e *ngFor
+import { CommonModule } from '@angular/common'; 
 import { Router } from '@angular/router';
 import { VeicoliService } from '../services/veicoli'; 
+// 1. Importa il componente figlio
+import { VeicoloItem } from '../veicolo-item/veicolo-item'; 
 
 @Component({
   selector: 'app-lista-veicoli',
   standalone: true,
-  // Aggiungiamo CommonModule qui per risolvere i warning NG8103
-  imports: [CommonModule], 
+  // 2. Aggiungi VeicoloItem qui dentro
+  imports: [CommonModule, VeicoloItem], 
   templateUrl: './lista-veicoli.html',
   styleUrl: './lista-veicoli.css'
 })
 export class ListaVeicoli implements OnInit {
 
-  // Iniettando public veicoliService risolviamo l'errore nell'HTML
   constructor(
     public veicoliService: VeicoliService, 
     private router: Router
@@ -24,7 +25,6 @@ export class ListaVeicoli implements OnInit {
     this.veicoliService.askVeicoli().subscribe();
   }
 
-  // Questa funzione risolve l'errore del click sul tasto "Indietro"
   tornaAllaDashboard(): void {
     this.router.navigate(['/automobilista']);
   }
