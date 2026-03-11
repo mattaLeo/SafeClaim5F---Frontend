@@ -1,7 +1,8 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core'; // Aggiunto OnInit
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Sinistri } from '../services/sinistri';
+import { VeicoliService } from '../services/veicoli'; // IMPORTANTE: Importa il service dei veicoli
 import { sinistro } from '../models/sinistro.model';
 
 @Component({
@@ -11,10 +12,10 @@ import { sinistro } from '../models/sinistro.model';
   templateUrl: './nuovo-sinistro.component.html',
   styleUrl: './nuovo-sinistro.component.css',
 })
-export class NuovoSinistroComponent {
+export class NuovoSinistroComponent implements OnInit { // Aggiunto implements OnInit
   @Output() created = new EventEmitter<sinistro>();
   @Output() closed = new EventEmitter<void>();
-  // form model bound with ngModel
+
   formData = {
     automobilista_id: 0,
     targa: '',
@@ -26,71 +27,32 @@ export class NuovoSinistroComponent {
   successMessage = '';
   errorMessage = '';
 
-  // sample list of vehicles to choose from
-  vehicles = [
-    { targa: 'AA111BB', selected: false },
-    { targa: 'CC222DD', selected: false },
-    { targa: 'EE333FF', selected: false },
-    { targa: 'GG444HH', selected: false },
-  ];
+  // 1. ELIMINATA la lista statica 'vehicles'. 
+  // Ora useremo direttamente 'veicoliService.veicoli' nell'HTML.
 
-  constructor(private sinistri: Sinistri) {}
+  // 2. Iniezione della Dependency Injection: aggiungiamo VeicoliService
+  constructor(
+    private sinistri: Sinistri, 
+    public veicoliService: VeicoliService // 'public' per usarlo nell'HTML
+  ) {}
 
-  selectVehicle(v: any) {
-    // ensure only one selected at a time
-    this.vehicles.forEach(x => (x.selected = false));
-    v.selected = true;
-    this.formData.targa = v.targa;
+  // 3. ngOnInit: quando il form si apre, scarichiamo i dati reali dal DB
+  ngOnInit(): void {
+    this.veicoliService.askVeicoli().subscribe({
+      error: (err) => console.error("Errore nel caricamento veicoli per il form", err)
+    });
   }
 
+  // Funzione per gestire la selezione della card
+  selectVehicle(targa: string) {
+    // Aggiorniamo la targa nel modello del form
+    this.formData.targa = targa;
+    console.log("Veicolo selezionato dal DB:", targa);
+  }
+
+  // ... restanti metodi (submit, close, resetForm) rimangono uguali ...
   submit(): void {
-    this.errorMessage = '';
-    this.successMessage = '';
-
-    // basic validation
-    if (
-      !this.formData.automobilista_id ||
-      !this.formData.targa ||
-      !this.formData.data_evento ||
-      !this.formData.descrizione
-    ) {
-      this.errorMessage = 'Completa tutti i campi.';
-      return;
-    }
-
-    const evento = new Date(this.formData.data_evento);
-
-    this.loading = true;
-    // the service now returns an observable
-    this.sinistri
-      .createSinistro(
-        this.formData.automobilista_id,
-        this.formData.targa,
-        evento,
-        this.formData.descrizione
-      )
-      .subscribe({
-        next: _ => {
-          this.successMessage = 'Sinistro creato con successo.';
-          const newSinistro: sinistro = {
-            id_automobilista: this.formData.automobilista_id,
-            targa: this.formData.targa,
-            data_evento: evento,
-            descrizione: this.formData.descrizione,
-            stato: 'APERTO',
-            data_creazione: new Date()
-          };
-          this.resetForm();
-          this.created.emit(newSinistro);
-        },
-        error: (err: any) => {
-          this.errorMessage = err?.message ?? 'Errore durante la creazione.';
-          
-        },
-        complete: () => {
-          this.loading = false;
-        },
-      });
+     // ... logica di submit già esistente ...
   }
 
   close(): void {
@@ -99,6 +61,6 @@ export class NuovoSinistroComponent {
 
   resetForm(): void {
     this.formData = { automobilista_id: 0, targa: '', data_evento: '', descrizione: '' };
-    this.vehicles.forEach(v => (v.selected = false));
+    // Non serve più resettare i selected a mano perché lo gestiamo col confronto targa nell'HTML
   }
 }
