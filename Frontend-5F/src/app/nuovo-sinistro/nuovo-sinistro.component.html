@@ -1,7 +1,6 @@
 <div class="fixed inset-0 z-50 flex items-center justify-center p-6">
   <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="close()"></div>
   <div (click)="$event.stopPropagation()" class="w-full max-w-2xl bg-white rounded-[32px] shadow-2xl shadow-blue-100/40 p-10 relative max-h-[90vh] overflow-y-auto">
-    <!-- close button -->
     <button type="button" (click)="close()" aria-label="Chiudi" class="absolute top-4 right-4 p-2 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -16,9 +15,6 @@
 
       <!-- section title: veicolo -->
       <div class="text-xs font-bold text-[#09637E] uppercase tracking-widest">1. VEICOLO</div>
-
-
-      <!-- automobilista id -->
       <div class="flex flex-col gap-1.5">
         <label class="text-xs font-black text-slate-500 uppercase tracking-widest">Automobilista ID</label>
         <input
@@ -31,23 +27,35 @@
         />
       </div>
 
-      <!-- veicoli -->
       <div>
-        <!-- the title above already added -->
-        <label class="text-xs font-black text-slate-500 uppercase tracking-widest mb-2 block">Veicoli</label>
+        <label class="text-xs font-black text-slate-500 uppercase tracking-widest mb-2 block">Seleziona Veicolo</label>
+        
+        <p *ngIf="veicoliService.veicoli.length === 0" class="text-xs text-red-500 mb-2">
+          Attenzione: Nessun veicolo trovato nel database per questo profilo.
+        </p>
+
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div
-              *ngFor="let v of vehicles"
-              (click)="selectVehicle(v)"
-              class="cursor-pointer p-4 rounded-xl border transition-all relative"
-              [ngClass]="{ 'border-[#088395]': v.selected, 'border-[#7AB2B2]': !v.selected, 'bg-[#EBF4F6]': v.selected }"
+            *ngFor="let v of veicoliService.veicoli"
+            (click)="selectVehicle(v.targa)"
+            class="cursor-pointer p-4 rounded-xl border transition-all relative group"
+            [class.border-blue-500]="formData.targa === v.targa"
+            [class.border-slate-200]="formData.targa !== v.targa"
+          >
+            <div class="text-[10px] text-slate-400 font-bold uppercase">{{ v.marca }}</div>
+            <div class="font-semibold text-[#0F172A]">{{ v.targa }}</div>
+            
+            <svg
+              *ngIf="formData.targa === v.targa"
+              class="w-6 h-6 text-blue-500 absolute top-2 right-2"
+              fill="currentColor"
+              viewBox="0 0 20 20"
             >
-            <div class="font-semibold">{{ v.targa }}</div>
-            <i *ngIf="v.selected" class="bi bi-check-circle-fill text-[#088395] absolute top-2 right-2 w-6 h-6"></i>
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l7.879-7.879a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
           </div>
         </div>
       </div>
-
       <!-- section title: dettagli -->
       <ng-container *ngIf="selectedVehicle; else showTitle">
         <div class="text-xs font-bold text-[#09637E] uppercase tracking-widest">Veicolo selezionato</div>
@@ -72,12 +80,10 @@
             name="data_evento"
             required
             class="w-full pl-10 pr-4 py-3 text-sm rounded-xl border border-[#7AB2B2] bg-[#EBF4F6] text-slate-800 font-medium
-                   focus:outline-none focus:ring-2 focus:ring-[#088395] focus:border-[#088395] transition-all"
-          />
+                   focus:outline-none focus:ring-2 focus:ring-[#088395] focus:border-[#088395] transition-all"/>
         </div>
       </div>
 
-      <!-- descrizione -->
       <div class="flex flex-col gap-1.5">
         <label class="text-xs font-black text-slate-500 uppercase tracking-widest">Descrizione</label>
         <div class="relative">
@@ -95,11 +101,9 @@
         </div>
       </div>
 
-      <!-- feedback messages -->
-      <div *ngIf="errorMessage" class="text-red-600 text-xs font-semibold">{{ errorMessage }}</div>
-      <div *ngIf="successMessage" class="text-green-600 text-xs font-semibold">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="text-red-600 text-xs font-semibold p-2 bg-red-50 rounded-lg">{{ errorMessage }}</div>
+      <div *ngIf="successMessage" class="text-green-600 text-xs font-semibold p-2 bg-green-50 rounded-lg">{{ successMessage }}</div>
 
-      <!-- submit -->
       <button
         type="submit"
         [disabled]="loading"

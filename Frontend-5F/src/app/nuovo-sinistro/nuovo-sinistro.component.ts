@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Sinistri } from '../services/sinistri';
+import { VeicoliService } from '../services/veicoli'; // IMPORTANTE: Importa il service dei veicoli
 import { sinistro } from '../models/sinistro.model';
 
 @Component({
@@ -11,11 +12,13 @@ import { sinistro } from '../models/sinistro.model';
   templateUrl: './nuovo-sinistro.component.html',
   styleUrl: './nuovo-sinistro.component.css',
 })
+
 export class NuovoSinistroComponent implements OnInit, OnDestroy {
   @Output() created = new EventEmitter<sinistro>();
   @Output() closed = new EventEmitter<void>();
   selectedVehicle: any = null;
   // form model bound with ngModel
+
   formData = {
     automobilista_id: 0,
     targa: '',
@@ -27,23 +30,18 @@ export class NuovoSinistroComponent implements OnInit, OnDestroy {
   successMessage = '';
   errorMessage = '';
 
-  // sample list of vehicles to choose from
-  vehicles = [
-    { targa: 'AA111BB', selected: false, modello: 'Fiat Panda' },
-    { targa: 'CC222DD', selected: false, modello: 'Volkswagen Golf' },
-    { targa: 'EE333FF', selected: false, modello: 'Renault Clio' },
-    { targa: 'GG444HH', selected: false, modello: 'Ford Focus' },
-    { targa: 'HH555II', selected: false, modello: 'Toyota Yaris' },
-    { targa: 'JJ666KK', selected: false, modello: 'BMW Serie 3' },
-    { targa: 'LL777MM', selected: false, modello: 'Audi A3' },
-    { targa: 'NN888OO', selected: false, modello: 'Mercedes A' }
-  ];
-
-  constructor(private sinistri: Sinistri) {}
+  // 2. Iniezione della Dependency Injection: aggiungiamo VeicoliService
+  constructor(
+    private sinistri: Sinistri, 
+    public veicoliService: VeicoliService // 'public' per usarlo nell'HTML
+  ) {}
 
   ngOnInit(): void {
     // try to pull any existing sinistri (if the server is reachable)
     this.sinistri.askSinistri();
+    this.veicoliService.askVeicoli().subscribe({
+      error: (err) => console.error("Errore nel caricamento veicoli per il form", err)
+    });
     // prevent background page from scrolling while modal is open
     try {
       document.body.style.overflow = 'hidden';
@@ -75,22 +73,12 @@ export class NuovoSinistroComponent implements OnInit, OnDestroy {
     return this.sinistri.sinistri;
   }
 
-  submit(): void {
-    this.errorMessage = '';
-    this.successMessage = '';
-
-    // basic validation
-    if (
-      !this.formData.automobilista_id ||
-      !this.formData.targa ||
-      !this.formData.data_evento ||
-      !this.formData.descrizione
-    ) {
-      this.errorMessage = 'Completa tutti i campi.';
-      return;
-    }
-
-    const evento = new Date(this.formData.data_evento);
+  // Funzione per gestire la selezione della card
+  selectVehicle(targa: string) {
+    // Aggiorniamo la targa nel modello del form
+    this.formData.targa = targa;
+    console.log("Veicolo selezionato dal DB:", targa);
+  }
 
     this.loading = true;
 
@@ -131,7 +119,6 @@ export class NuovoSinistroComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
       });
-  }
 
   close(): void {
     try { document.body.style.overflow = ''; } catch (e) {}
@@ -140,7 +127,5 @@ export class NuovoSinistroComponent implements OnInit, OnDestroy {
 
   resetForm(): void {
     this.formData = { automobilista_id: 0, targa: '', data_evento: '', descrizione: '' };
-    this.vehicles.forEach(v => (v.selected = false));
-    this.selectedVehicle = null;
   }
 }

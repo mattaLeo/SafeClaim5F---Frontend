@@ -71,7 +71,7 @@ export class Sinistri {
     );
 
     console.log('local sinistri', this.sinistri);
+
     return this.obsCreateSinistro;
-  }
 
 }

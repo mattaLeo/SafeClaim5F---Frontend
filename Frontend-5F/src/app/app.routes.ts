@@ -6,7 +6,7 @@ import { Login } from './login/login';
 import { Signup } from './signup/signup';
 import { Info } from './info/info';
 import { NuovoSinistroComponent } from './nuovo-sinistro/nuovo-sinistro.component';
-
+import { ListaVeicoli } from './lista-veicoli/lista-veicoli';
 
 export const routes: Routes = [
     {path: "automobilista", component: Automobilista},
@@ -15,5 +15,6 @@ export const routes: Routes = [
     {path: "signin", component: Login},
     {path: "signup", component: Signup},
     {path: "info", component: Info},
-    {path: "nuovo-sinistro", component: NuovoSinistroComponent}
+    {path: "nuovo-sinistro", component: NuovoSinistroComponent},
+    {path: "veicoli", component: ListaVeicoli},
 ];
