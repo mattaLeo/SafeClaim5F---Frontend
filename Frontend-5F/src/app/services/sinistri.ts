@@ -45,19 +45,33 @@ export class Sinistri {
   }
 
   createSinistro(automobilista_id: number, targa: string, data_evento: Date, descrizione: string){
-    let newSinistro = {
+    // build payload – the server will normally add other fields (id, stato, data_creazione)
+    const newSinistro: sinistro = {
       id_automobilista: automobilista_id,
       targa: targa,
       data_evento: data_evento,
-      descrizione: descrizione
-    }
+      descrizione: descrizione,
+      stato: 'APERTO',
+      data_creazione: new Date()
+    } as any; // cast because server normally returns additional fields
 
-    this.sinistri.push(newSinistro as sinistro)
+    // **BUG FIX**: push immediately so UI can render even if HTTP fails/offline
+    // earlier this was done inside the subscribe callback, which caused a
+    // TypeError when sinistri was undefined at startup. the array is already
+    // initialized above (`sinistri: sinistro[] = []`) so this is safe.
+    this.sinistri.push(newSinistro);
 
+    // perform the HTTP call as before, log response/errors, but do not wait for
+    // it before mutating the local collection.
     this.obsCreateSinistro = this.http.post(`${this.link}sinistro`, newSinistro);
-    this.obsCreateSinistro.subscribe(res => console.log(res));
-    console.log(this.sinistri); 
+
+    this.obsCreateSinistro.subscribe(
+      res => console.log('create sinistro response', res),
+      err => console.error('create sinistro failed', err)
+    );
+
+    console.log('local sinistri', this.sinistri);
+
     return this.obsCreateSinistro;
-  }
 
 }

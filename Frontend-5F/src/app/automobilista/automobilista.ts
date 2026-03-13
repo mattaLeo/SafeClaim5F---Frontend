@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router'; 
 import { NuovoSinistroComponent } from '../nuovo-sinistro/nuovo-sinistro.component';
+import { Sinistri } from '../services/sinistri';
 import { sinistro } from '../models/sinistro.model';
 import { VeicoliService } from '../services/veicoli'; 
 import { Veicolo } from '../models/veicolo.model';
@@ -14,34 +15,39 @@ import { Veicolo } from '../models/veicolo.model';
   templateUrl: './automobilista.html',
   styleUrl: './automobilista.css',
 })
-export class Automobilista {
-  // Proprietà Booleana per gestire la visibilità del form "Nuovo Sinistro" tramite *ngIf
+
+export class Automobilista implements OnInit {
   showNewSinistro = false;
   
-  // Array locale per memorizzare i sinistri (inizialmente vuoto)
-  sinistri: sinistro[] = [];
-  
-  // Variabile per memorizzare un singolo veicolo cercato. Può essere nullo all'inizio.
   veicoloSelezionato: Veicolo | null = null;
 
-  // DEPENDENCY INJECTION: Angular inietta il Service dei veicoli e il Router
-  constructor(
+  constructor(private sinistri: Sinistri) {
     public veicoliService: VeicoliService, // Public per usarlo direttamente nell'HTML
-    private router: Router // Private perché serve solo nella logica TS
-  ) {}
+    private router: Router
+  }
+
+  ngOnInit(): void {
+    // load sinistri from service (if server is available)
+    this.sinistri.askSinistri();
+  }
 
   /**
-   * NAVIGAZIONE: Metodo per cambiare pagina.
-   * Il Router prende l'indirizzo configurato nelle 'routes' e cambia il contenuto della vista.
+   * Expose the service array directly, so template always reads from the source of truth.
+   * When nuovo-sinistro adds a sinistro via service.createSinistro(),
+   * this getter will reflect the change immediately.
    */
+  get sinistriList(): sinistro[] {
+    return this.sinistri.sinistri;
+  }
+  
   vaiAVeicoli(): void {
     this.router.navigate(['/veicoli']);
   }
 
-  /**
-   * COMUNICAZIONE ASINCRONA: Recupera i dati di un veicolo specifico dal backend.
-   * id: numero identificativo del veicolo
-   */
+  openNewSinistro(): void {
+    this.showNewSinistro = true;
+  }
+  
   cercaSingoloVeicolo(id: number): void {
     // Chiamata al service che restituisce un Observable
     this.veicoliService.getVeicoloById(id).subscribe({
@@ -55,23 +61,40 @@ export class Automobilista {
     });
   }
 
-  // Gestione apertura MODALE/FORM
-  openNewSinistro(): void {
-    this.showNewSinistro = true;
-  }
-
-  /**
-   * EVENTO @OUTPUT: Metodo richiamato quando il componente figlio (NuovoSinistro) 
-   * emette un evento di creazione avvenuta.
-   * s: l'oggetto sinistro appena creato dal form
-   */
-  onCreated(s: sinistro): void {
-    this.sinistri.push(s); // Aggiungiamo il nuovo sinistro alla lista in tempo reale
-    this.closeNewSinistro(); // Chiudiamo il form
-  }
-
   // Chiude il componente del form riportando la variabile a false
   closeNewSinistro(): void {
     this.showNewSinistro = false;
   }
+
+  /**
+   * receive the sinistro object emitted by NuovoSinistroComponent and push it
+   * into the shared array immediately so the dashboard reflects the change
+   * without waiting for any network response. In case the object already has
+   * a non-APERTO state (eg. set by the child on HTTP error), we treat it as a
+   * simulated entry by normalising the status text.
+   */
+  onSinistroCreated(s: sinistro) {
+    const entry = { ...s } as sinistro;
+    if (entry.stato && entry.stato !== 'APERTO') {
+      entry.stato = 'SIMULAZIONE';
+    }
+    // avoid duplicates: check by targa + data_evento + descrizione
+    const sameExists = this.sinistriList.some(e => {
+      try {
+        const eDate = new Date(e.data_evento).getTime();
+        const sDate = new Date(entry.data_evento).getTime();
+        return e.targa === entry.targa && e.descrizione === entry.descrizione && eDate === sDate;
+      } catch (err) {
+        return false;
+      }
+    });
+    if (!sameExists) {
+      this.sinistriList.push(entry);
+    }
+  }
+
+
+}
+
+
 }

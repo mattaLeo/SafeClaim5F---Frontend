@@ -1,18 +1,20 @@
 <div class="fixed inset-0 z-50 flex items-center justify-center p-6">
   <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" (click)="close()"></div>
-  
-  <div (click)="$event.stopPropagation()" class="w-full max-w-2xl bg-white rounded-[40px] shadow-2xl shadow-blue-100/40 p-10 relative">
-    
+  <div (click)="$event.stopPropagation()" class="w-full max-w-2xl bg-white rounded-[32px] shadow-2xl shadow-blue-100/40 p-10 relative max-h-[90vh] overflow-y-auto">
     <button type="button" (click)="close()" aria-label="Chiudi" class="absolute top-4 right-4 p-2 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </button>
-
-    <h2 class="text-2xl font-black mb-6 text-[#0F172A]">Nuovo Sinistro</h2>
+    <h2 class="text-2xl font-black mb-6 text-[#09637E] flex items-center">
+      <i class="bi bi-shield-plus text-[#09637E] mr-2"></i>
+      Nuovo Sinistro
+    </h2>
 
     <form (ngSubmit)="submit()" class="flex flex-col gap-6">
 
+      <!-- section title: veicolo -->
+      <div class="text-xs font-bold text-[#09637E] uppercase tracking-widest">1. VEICOLO</div>
       <div class="flex flex-col gap-1.5">
         <label class="text-xs font-black text-slate-500 uppercase tracking-widest">Automobilista ID</label>
         <input
@@ -20,7 +22,8 @@
           [(ngModel)]="formData.automobilista_id"
           name="automobilista_id"
           required
-          class="w-full pl-3 pr-4 py-3 text-sm rounded-xl border border-slate-200 bg-slate-50 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1E40AF]/20 focus:border-[#1E40AF] transition-all"
+          class="w-full pl-3 pr-4 py-3 text-sm rounded-xl border border-[#7AB2B2] bg-[#EBF4F6] text-slate-800 placeholder-slate-300 font-medium
+                   focus:outline-none focus:ring-2 focus:ring-[#088395] focus:border-[#088395] transition-all"
         />
       </div>
 
@@ -53,7 +56,18 @@
           </div>
         </div>
       </div>
-
+      <!-- section title: dettagli -->
+      <ng-container *ngIf="selectedVehicle; else showTitle">
+        <div class="text-xs font-bold text-[#09637E] uppercase tracking-widest">Veicolo selezionato</div>
+        <div class="mt-2 p-3 rounded-xl border border-[#7AB2B2] bg-[#EBF4F6]">
+          <div class="font-semibold text-[#09637E]">{{ selectedVehicle.targa }}</div>
+          <div class="text-sm text-slate-700">{{ selectedVehicle.modello }}</div>
+        </div>
+      </ng-container>
+      <ng-template #showTitle>
+        <div class="text-xs font-bold text-[#09637E] uppercase tracking-widest">2. DETTAGLI</div>
+      </ng-template>
+      <!-- data evento -->
       <div class="flex flex-col gap-1.5">
         <label class="text-xs font-black text-slate-500 uppercase tracking-widest">Data evento</label>
         <div class="relative">
@@ -65,8 +79,8 @@
             [(ngModel)]="formData.data_evento"
             name="data_evento"
             required
-            class="w-full pl-10 pr-4 py-3 text-sm rounded-xl border border-slate-200 bg-slate-50 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1E40AF]/20 transition-all"
-          />
+            class="w-full pl-10 pr-4 py-3 text-sm rounded-xl border border-[#7AB2B2] bg-[#EBF4F6] text-slate-800 font-medium
+                   focus:outline-none focus:ring-2 focus:ring-[#088395] focus:border-[#088395] transition-all"/>
         </div>
       </div>
 
@@ -81,8 +95,8 @@
             name="descrizione"
             rows="4"
             required
-            placeholder="Descrivi l'accaduto..."
-            class="w-full pl-10 pr-4 py-3 text-sm rounded-xl border border-slate-200 bg-slate-50 text-slate-800 resize-none focus:outline-none focus:ring-2 focus:ring-[#1E40AF]/20 transition-all"
+            class="w-full pl-10 pr-4 py-3 text-sm rounded-xl border border-[#7AB2B2] bg-[#EBF4F6] text-slate-800 font-medium
+                   focus:outline-none focus:ring-2 focus:ring-[#088395] focus:border-[#088395] transition-all resize-none"
           ></textarea>
         </div>
       </div>
@@ -93,8 +107,10 @@
       <button
         type="submit"
         [disabled]="loading"
-        class="w-full py-3 bg-[#0F172A] text-white text-sm font-extrabold rounded-xl shadow-lg transition-all disabled:opacity-60 flex items-center justify-center gap-2"
+        class="w-full py-3 bg-[#09637E] hover:bg-[#088395] text-white text-sm font-extrabold rounded-xl tracking-wide
+               shadow-lg shadow-blue-200 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
+        <i class="bi bi-send-fill"></i>
         <svg *ngIf="loading" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
@@ -102,5 +118,24 @@
         {{ loading ? 'Invio in corso...' : 'Crea Sinistro' }}
       </button>
     </form>
+
+    <!-- lista dei sinistri inseriti -->
+    <div class="mt-8">
+      <h3 class="text-lg font-bold text-[#09637E] mb-4">Sinistri registrati</h3>
+      <div *ngFor="let s of sinistriList" class="flex items-start gap-3 p-4 mb-4 bg-white rounded-2xl shadow-sm border border-[#7AB2B2]">
+        <!-- icon: car -->
+        <i class="bi bi-car-front-fill w-6 h-6 text-[#09637E] flex-shrink-0"></i>
+        <div class="flex-1">
+          <div class="flex justify-between items-center">
+            <div>
+              <div class="font-semibold text-[#09637E]">{{ s.targa }}</div>
+              <div class="text-xs px-2 py-1 rounded-full bg-[#EBF4F6] text-[#088395] inline-block">{{ s.stato }}</div>
+            </div>
+            <div class="text-xs text-slate-500">{{ s.data_evento | date:'shortDate' }}</div>
+          </div>
+          <div class="text-sm text-slate-700 mt-1">{{ s.descrizione }}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
