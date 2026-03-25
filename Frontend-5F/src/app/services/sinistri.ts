@@ -6,10 +6,8 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
-
 export class Sinistri {
-
-  link = "https://sturdy-space-train-wrrww9x6prwjf9vw9-6000.app.github.dev/"
+  link = "https://opulent-halibut-wrrww9x5qw5q35g54-7000.app.github.dev/"
 
   obsSinistri!: Observable<sinistro[]>
   obsSinistroId!: Observable<sinistro>
@@ -18,46 +16,39 @@ export class Sinistri {
   sinistri: sinistro[] = [];
   sinistroById!: sinistro
 
-  
+  constructor(public http: HttpClient) {}
 
-  constructor(public http: HttpClient){
-    
-  }
-
-  askSinistri(){
+  askSinistri() {
     this.obsSinistri = this.http.get<sinistro[]>(`${this.link}sinistri`)
     this.obsSinistri.subscribe(data => this.getSinistri(data))
   }
 
-  getSinistri(d: sinistro[]){
+  getSinistri(d: sinistro[]) {
     this.sinistri = d
     console.log(this.sinistri)
   }
 
-  askSinistroById(id: number){
+  askSinistroById(id: number) {
     this.obsSinistroId = this.http.get<sinistro>(`${this.link}sinistri/${id}`)
     this.obsSinistroId.subscribe(data => this.getSinistroById(data))
   }
 
-  getSinistroById(d: sinistro){
+  getSinistroById(d: sinistro) {
     this.sinistroById = d
     console.log(this.sinistroById)
   }
 
-  createSinistro(automobilista_id: number, targa: string, data_evento: Date, descrizione: string){
-    let newSinistro = {
-      id_automobilista: automobilista_id,
+  createSinistro(automobilista_id: number, targa: string, data_evento: Date, descrizione: string): Observable<any> {
+    const newSinistro = {
+      // CAMBIA QUI: usa lo stesso nome che si aspetta il backend
+      automobilista_id: automobilista_id, 
       targa: targa,
       data_evento: data_evento,
       descrizione: descrizione
-    }
+    };
 
-    this.sinistri.push(newSinistro as sinistro)
+    console.log("Sto inviando questo oggetto:", newSinistro); // Utile per il debug
 
-    this.obsCreateSinistro = this.http.post(`${this.link}sinistro`, newSinistro);
-    this.obsCreateSinistro.subscribe(res => console.log(res));
-    console.log(this.sinistri); 
-    return this.obsCreateSinistro;
+    return this.http.post(`${this.link}sinistro`, newSinistro);
   }
-
 }

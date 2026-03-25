@@ -8,7 +8,7 @@ import { Veicolo } from '../models/veicolo.model';
   providedIn: 'root',
 })
 export class VeicoliService {
-  private link = 'https://opulent-halibut-wrrww9x5qw5q35g54-5000.app.github.dev'; 
+  private link = 'https://opulent-halibut-wrrww9x5qw5q35g54-5000.app.github.dev/'; 
 
   // Variabile pubblica che memorizza i veicoli scaricati, rendendoli accessibili a tutti i componenti
   public veicoli: Veicolo[] = [];

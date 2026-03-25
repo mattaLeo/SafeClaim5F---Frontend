@@ -1,8 +1,8 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core'; // Aggiunto OnInit
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Sinistri } from '../services/sinistri';
-import { VeicoliService } from '../services/veicoli'; // IMPORTANTE: Importa il service dei veicoli
+import { VeicoliService } from '../services/veicoli';
 import { sinistro } from '../models/sinistro.model';
 
 @Component({
@@ -12,7 +12,7 @@ import { sinistro } from '../models/sinistro.model';
   templateUrl: './nuovo-sinistro.component.html',
   styleUrl: './nuovo-sinistro.component.css',
 })
-export class NuovoSinistroComponent implements OnInit { // Aggiunto implements OnInit
+export class NuovoSinistroComponent implements OnInit {
   @Output() created = new EventEmitter<sinistro>();
   @Output() closed = new EventEmitter<void>();
 
@@ -27,32 +27,65 @@ export class NuovoSinistroComponent implements OnInit { // Aggiunto implements O
   successMessage = '';
   errorMessage = '';
 
-  // 1. ELIMINATA la lista statica 'vehicles'. 
-  // Ora useremo direttamente 'veicoliService.veicoli' nell'HTML.
-
-  // 2. Iniezione della Dependency Injection: aggiungiamo VeicoliService
   constructor(
-    private sinistri: Sinistri, 
-    public veicoliService: VeicoliService // 'public' per usarlo nell'HTML
+    private sinistriService: Sinistri, 
+    public veicoliService: VeicoliService 
   ) {}
 
-  // 3. ngOnInit: quando il form si apre, scarichiamo i dati reali dal DB
   ngOnInit(): void {
+    // Carichiamo i veicoli dal database all'avvio del componente
     this.veicoliService.askVeicoli().subscribe({
-      error: (err) => console.error("Errore nel caricamento veicoli per il form", err)
+      error: (err) => {
+        console.error("Errore nel caricamento veicoli", err);
+        this.errorMessage = "Impossibile caricare la lista veicoli.";
+      }
     });
   }
 
-  // Funzione per gestire la selezione della card
   selectVehicle(targa: string) {
-    // Aggiorniamo la targa nel modello del form
     this.formData.targa = targa;
-    console.log("Veicolo selezionato dal DB:", targa);
+    this.errorMessage = ''; // Puliamo eventuali errori precedenti
   }
 
-  // ... restanti metodi (submit, close, resetForm) rimangono uguali ...
   submit(): void {
-     // ... logica di submit già esistente ...
+    // Validazione base
+    if (!this.formData.targa || !this.formData.data_evento || !this.formData.descrizione) {
+      this.errorMessage = "Tutti i campi sono obbligatori.";
+      return;
+    }
+
+    this.loading = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    // Convertiamo la stringa data_evento in oggetto Date per il service
+    const dataConvertita = new Date(this.formData.data_evento);
+
+    this.sinistriService.createSinistro(
+      this.formData.automobilista_id,
+      this.formData.targa,
+      dataConvertita,
+      this.formData.descrizione
+    ).subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.successMessage = 'Sinistro creato con successo!';
+        
+        // Notifichiamo il successo e passiamo il nuovo oggetto creato
+        this.created.emit(res);
+
+        // Aspettiamo 1.5 secondi per far leggere il messaggio e poi chiudiamo
+        setTimeout(() => {
+          this.resetForm();
+          this.close();
+        }, 1500);
+      },
+      error: (err) => {
+        this.loading = false;
+        this.errorMessage = 'Errore durante il salvataggio sul server.';
+        console.error(err);
+      }
+    });
   }
 
   close(): void {
@@ -60,7 +93,13 @@ export class NuovoSinistroComponent implements OnInit { // Aggiunto implements O
   }
 
   resetForm(): void {
-    this.formData = { automobilista_id: 0, targa: '', data_evento: '', descrizione: '' };
-    // Non serve più resettare i selected a mano perché lo gestiamo col confronto targa nell'HTML
+    this.formData = { 
+      automobilista_id: 0, 
+      targa: '', 
+      data_evento: '', 
+      descrizione: '' 
+    };
+    this.successMessage = '';
+    this.errorMessage = '';
   }
 }
