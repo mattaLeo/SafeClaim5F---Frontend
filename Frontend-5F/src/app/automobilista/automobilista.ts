@@ -1,77 +1,90 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router'; 
+import { FormsModule } from '@angular/forms'; 
+import { HttpClientModule } from '@angular/common/http';
+
+// Import del componente per il popup dei sinistri
 import { NuovoSinistroComponent } from '../nuovo-sinistro/nuovo-sinistro.component';
+
 import { sinistro } from '../models/sinistro.model';
 import { VeicoliService } from '../services/veicoli'; 
-import { Veicolo } from '../models/veicolo.model';
+import { Sinistri } from '../services/sinistri'; 
 
 @Component({
-  selector: 'app-automobilista', // Nome del tag HTML del componente
-  standalone: true, // Indica che il componente si gestisce i propri import
-  // Registriamo il componente figlio 'NuovoSinistro' per poterlo mostrare nella dashboard
-  imports: [CommonModule, NuovoSinistroComponent],
+  selector: 'app-automobilista',
+  standalone: true,
+  imports: [CommonModule, NuovoSinistroComponent, FormsModule, HttpClientModule],
   templateUrl: './automobilista.html',
   styleUrl: './automobilista.css',
 })
-export class Automobilista {
-  // Proprietà Booleana per gestire la visibilità del form "Nuovo Sinistro" tramite *ngIf
+export class Automobilista implements OnInit {
+  // Variabili di stato
   showNewSinistro = false;
-  
-  // Array locale per memorizzare i sinistri (inizialmente vuoto)
   sinistri: sinistro[] = [];
-  
-  // Variabile per memorizzare un singolo veicolo cercato. Può essere nullo all'inizio.
-  veicoloSelezionato: Veicolo | null = null;
+  searchTerm: string = ''; 
 
-  // DEPENDENCY INJECTION: Angular inietta il Service dei veicoli e il Router
   constructor(
-    public veicoliService: VeicoliService, // Public per usarlo direttamente nell'HTML
-    private router: Router // Private perché serve solo nella logica TS
+    public veicoliService: VeicoliService, 
+    private sinistriService: Sinistri, 
+    private router: Router
   ) {}
 
-  /**
-   * NAVIGAZIONE: Metodo per cambiare pagina.
-   * Il Router prende l'indirizzo configurato nelle 'routes' e cambia il contenuto della vista.
-   */
-  vaiAVeicoli(): void {
-    this.router.navigate(['/veicoli']);
+  ngOnInit(): void {
+    // Sottoscrizione ai sinistri (Porta 7000)
+    this.sinistriService.obsSinistri.subscribe({
+      next: (data: any) => {
+        // Gestione flessibile della risposta (se array o oggetto con count/data)
+        this.sinistri = Array.isArray(data) ? data : data.data || [];
+      },
+      error: (err) => console.error("Errore caricamento sinistri:", err)
+    });
+
+    this.caricaDati();
   }
 
-  /**
-   * COMUNICAZIONE ASINCRONA: Recupera i dati di un veicolo specifico dal backend.
-   * id: numero identificativo del veicolo
-   */
-  cercaSingoloVeicolo(id: number): void {
-    // Chiamata al service che restituisce un Observable
-    this.veicoliService.getVeicoloById(id).subscribe({
-      // Caso successo (next): il dato 'v' arriva da Python/Flask
-      next: (v) => {
-        this.veicoloSelezionato = v; // Aggiorniamo la variabile locale
-        console.log("Dettaglio veicolo caricato:", v);
-      },
-      // Caso errore: gestione dell'eccezione se il server non risponde o l'id non esiste
-      error: (err) => console.error("Errore nel recupero del singolo veicolo", err)
+  caricaDati() {
+    // Carica i sinistri da MongoDB
+    this.sinistriService.askSinistri();
+    
+    // Carica i veicoli da MySQL (Porta 5000)
+    // Usiamo ID 1 perché il tuo script di setup ha creato utenti da 1 a 10
+    const idTest = 1; 
+    this.veicoliService.askVeicoli(idTest).subscribe(); 
+  }
+
+  // Logica di ricerca sicura contro i valori null
+  get sinistriFiltrati() {
+    if (!this.searchTerm.trim()) return this.sinistri;
+    
+    const search = this.searchTerm.toLowerCase();
+    
+    return this.sinistri.filter(s => {
+      const targa = (s.targa ?? '').toString().toLowerCase();
+      const descrizione = (s.descrizione ?? '').toString().toLowerCase();
+      return targa.includes(search) || descrizione.includes(search);
     });
   }
 
-  // Gestione apertura MODALE/FORM
-  openNewSinistro(): void {
+  // Metodi per l'interfaccia
+  openNewSinistro() {
     this.showNewSinistro = true;
   }
 
-  /**
-   * EVENTO @OUTPUT: Metodo richiamato quando il componente figlio (NuovoSinistro) 
-   * emette un evento di creazione avvenuta.
-   * s: l'oggetto sinistro appena creato dal form
-   */
-  onCreated(s: sinistro): void {
-    this.sinistri.push(s); // Aggiungiamo il nuovo sinistro alla lista in tempo reale
-    this.closeNewSinistro(); // Chiudiamo il form
-  }
-
-  // Chiude il componente del form riportando la variabile a false
-  closeNewSinistro(): void {
+  closeNewSinistro() {
     this.showNewSinistro = false;
   }
-}
+
+  onCreated(nuovo: any) {
+    this.caricaDati();
+    this.showNewSinistro = false;
+  }
+
+  mostraDettagli(s: sinistro) {
+    alert(`Dettagli Sinistro:\nTarga: ${s.targa}\nDescrizione: ${s.descrizione}`);
+  }
+
+  vaiAVeicoli() {
+    this.router.navigate(['/veicoli']);
+  }
+}   

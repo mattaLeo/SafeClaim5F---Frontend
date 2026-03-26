@@ -1,8 +1,8 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Sinistri } from '../services/sinistri';
 import { VeicoliService } from '../services/veicoli';
+import { Sinistri } from '../services/sinistri';
 import { sinistro } from '../models/sinistro.model';
 
 @Component({
@@ -10,96 +10,90 @@ import { sinistro } from '../models/sinistro.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './nuovo-sinistro.component.html',
-  styleUrl: './nuovo-sinistro.component.css',
+  styleUrl: './nuovo-sinistro.component.css'
 })
 export class NuovoSinistroComponent implements OnInit {
-  @Output() created = new EventEmitter<sinistro>();
+  @Output() created = new EventEmitter<void>();
   @Output() closed = new EventEmitter<void>();
 
+  loading = false;
+  errorMessage = '';
+  successMessage = '';
+
   formData = {
-    automobilista_id: 0,
     targa: '',
-    data_evento: '',
     descrizione: '',
+    data_evento: new Date().toISOString().split('T')[0],
+    automobilista_id: 1 
   };
 
-  loading = false;
-  successMessage = '';
-  errorMessage = '';
-
   constructor(
-    private sinistriService: Sinistri, 
-    public veicoliService: VeicoliService 
+    public veicoliService: VeicoliService,
+    private sinistriService: Sinistri
   ) {}
 
   ngOnInit(): void {
-    // Carichiamo i veicoli dal database all'avvio del componente
-    this.veicoliService.askVeicoli().subscribe({
-      error: (err) => {
-        console.error("Errore nel caricamento veicoli", err);
-        this.errorMessage = "Impossibile caricare la lista veicoli.";
-      }
-    });
+    // Carica i veicoli dell'utente 1 all'avvio
+    this.aggiornaVeicoli();
   }
 
-  selectVehicle(targa: string) {
+  // Funzione che scarica i veicoli ogni volta che l'ID cambia nell'input
+  aggiornaVeicoli(): void {
+    this.errorMessage = '';
+    
+    if (this.formData.automobilista_id) {
+      this.veicoliService.askVeicoli(this.formData.automobilista_id).subscribe({
+        next: (res) => {
+          if (res.length === 0) {
+            this.errorMessage = "Nessun veicolo trovato per questo utente.";
+          }
+        },
+        error: () => {
+          this.errorMessage = "Errore nel caricamento veicoli.";
+          this.veicoliService.veicoli = []; 
+        }
+      });
+    } else {
+      this.veicoliService.veicoli = [];
+    }
+  }
+
+  selectVeicolo(targa: string): void {
     this.formData.targa = targa;
-    this.errorMessage = ''; // Puliamo eventuali errori precedenti
   }
 
   submit(): void {
-    // Validazione base
-    if (!this.formData.targa || !this.formData.data_evento || !this.formData.descrizione) {
-      this.errorMessage = "Tutti i campi sono obbligatori.";
+    if (!this.formData.targa) {
+      this.errorMessage = "Seleziona un veicolo prima di inviare!";
       return;
     }
 
     this.loading = true;
     this.errorMessage = '';
-    this.successMessage = '';
 
-    // Convertiamo la stringa data_evento in oggetto Date per il service
-    const dataConvertita = new Date(this.formData.data_evento);
+    const payload: sinistro = {
+      targa: this.formData.targa,
+      descrizione: this.formData.descrizione,
+      data_evento: new Date(this.formData.data_evento),
+      automobilista_id: Number(this.formData.automobilista_id)
+    };
 
-    this.sinistriService.createSinistro(
-      this.formData.automobilista_id,
-      this.formData.targa,
-      dataConvertita,
-      this.formData.descrizione
-    ).subscribe({
-      next: (res) => {
-        this.loading = false;
-        this.successMessage = 'Sinistro creato con successo!';
-        
-        // Notifichiamo il successo e passiamo il nuovo oggetto creato
-        this.created.emit(res);
-
-        // Aspettiamo 1.5 secondi per far leggere il messaggio e poi chiudiamo
+    this.sinistriService.createSinistro(payload).subscribe({
+      next: () => {
+        this.successMessage = "Sinistro registrato con successo!";
         setTimeout(() => {
-          this.resetForm();
-          this.close();
+          this.created.emit();
+          this.loading = false;
         }, 1500);
       },
-      error: (err) => {
+      error: () => {
+        this.errorMessage = "Errore durante il salvataggio.";
         this.loading = false;
-        this.errorMessage = 'Errore durante il salvataggio sul server.';
-        console.error(err);
       }
     });
   }
 
   close(): void {
     this.closed.emit();
-  }
-
-  resetForm(): void {
-    this.formData = { 
-      automobilista_id: 0, 
-      targa: '', 
-      data_evento: '', 
-      descrizione: '' 
-    };
-    this.successMessage = '';
-    this.errorMessage = '';
   }
 }

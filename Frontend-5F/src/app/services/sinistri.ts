@@ -1,54 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { sinistro } from '../models/sinistro.model';
 import { HttpClient } from '@angular/common/http';
+import { Subject, Observable } from 'rxjs';
+import { sinistro } from '../models/sinistro.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class Sinistri {
-  link = "https://opulent-halibut-wrrww9x5qw5q35g54-7000.app.github.dev/"
+  // URL della porta 7000
+  private baseUrl = "https://special-halibut-pjjxxg9w5464hr6jp-7000.app.github.dev";
+  
+  private sinistriSubject = new Subject<sinistro[]>();
+  obsSinistri = this.sinistriSubject.asObservable();
 
-  obsSinistri!: Observable<sinistro[]>
-  obsSinistroId!: Observable<sinistro>
-  obsCreateSinistro!: Observable<any>
+  constructor(private http: HttpClient) {}
 
-  sinistri: sinistro[] = [];
-  sinistroById!: sinistro
-
-  constructor(public http: HttpClient) {}
-
-  askSinistri() {
-    this.obsSinistri = this.http.get<sinistro[]>(`${this.link}sinistri`)
-    this.obsSinistri.subscribe(data => this.getSinistri(data))
+  askSinistri(): void {
+    // Chiamata alla rotta /sinistri (plurale) creata in Python
+    this.http.get<sinistro[]>(`${this.baseUrl}/sinistri`).subscribe({
+      next: (data) => {
+        this.sinistriSubject.next(data);
+      },
+      error: (err) => console.error("Errore Porta 7000 (Sinistri):", err)
+    });
   }
 
-  getSinistri(d: sinistro[]) {
-    this.sinistri = d
-    console.log(this.sinistri)
-  }
-
-  askSinistroById(id: number) {
-    this.obsSinistroId = this.http.get<sinistro>(`${this.link}sinistri/${id}`)
-    this.obsSinistroId.subscribe(data => this.getSinistroById(data))
-  }
-
-  getSinistroById(d: sinistro) {
-    this.sinistroById = d
-    console.log(this.sinistroById)
-  }
-
-  createSinistro(automobilista_id: number, targa: string, data_evento: Date, descrizione: string): Observable<any> {
-    const newSinistro = {
-      // CAMBIA QUI: usa lo stesso nome che si aspetta il backend
-      automobilista_id: automobilista_id, 
-      targa: targa,
-      data_evento: data_evento,
-      descrizione: descrizione
-    };
-
-    console.log("Sto inviando questo oggetto:", newSinistro); // Utile per il debug
-
-    return this.http.post(`${this.link}sinistro`, newSinistro);
+  createSinistro(nuovo: sinistro): Observable<any> {
+    return this.http.post(`${this.baseUrl}/sinistro`, nuovo);
   }
 }
