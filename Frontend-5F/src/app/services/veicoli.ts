@@ -14,9 +14,12 @@ export class VeicoliService {
 
   // Funzione che richiede al database i veicoli associati a un ID utente specifico
   askVeicoli(userId: number): Observable<any[]> {
+    console.log(`Richiesta veicoli per l'utente ID: ${userId} sulla porta 5000...`);
+
     // Effettua una chiamata GET all'URL dinamico 
     return this.http.get<any[]>(`${this.baseUrl}/veicoli-utente/${userId}`).pipe(
       tap((data) => { // L'operatore 'tap' ci permette di eseguire un'azione appena arrivano i dati
+        console.log("Veicoli ricevuti dal server (MySQL):", data);
         this.veicoli = data; // Salviamo la lista di auto dentro la nostra variabile pubblica 'veicoli'
       })
     );
